@@ -6,7 +6,7 @@ require 'spec/autorun'
 
 
 Spec::Runner.configure do |config|
-  
+
 end
 
 
@@ -24,14 +24,26 @@ def temp_from_model(model, file_basename=nil)
   newfile
 end
 
+def temp_from_string(string, file_basename=nil)
+  f = Tempfile.new(file_basename) 
+  f.write(string.strip)
+  f.close
+  f
+end
+
 def expected_contents(file_name)
-  f = File.expand_path(File.dirname(__FILE__) + "/fixtures/#{file_name}")  
+  f = File.expand_path(File.dirname(__FILE__) + "/fixtures/#{file_name}")
   File.open(f).read
 end
 
 PPGIT_CMD = File.expand_path(File.dirname(__FILE__)) + '/../bin/ppgit'
 
-def assert_same_contents(actual_file, expected_fixture_name)
-  File.open(actual_file.path).read.gsub(/\t/, '  ').chomp.should == expected_contents(expected_fixture_name)
+def check_command_result(git_command, before, expected)
+  before, expected = before.join("\n"), expected.join("\n")
+  config_file_path = temp_from_string(before).path
+
+  `#{git_command} --files #{config_file_path}`
+
+  actual_text = File.open(config_file_path).read.gsub(/\t/, '  ').chomp
+  actual_text.should == expected
 end
-  
