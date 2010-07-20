@@ -1,3 +1,7 @@
 #!/usr/local/bin/ruby -ws
 
-puts "yyyyyyyyyyyyyyyyy"
+file_part = (i = ARGV.index( '--files')) && " --file #{ARGV[i+1]}"
+
+users  = [ARGV[0], ARGV[1]]
+pair_user = users.sort.join('_')
+`git config #{file_part} user.name #{pair_user}`
