@@ -11,6 +11,8 @@ Quick Usage :
 		$ ppgit john andy andy_john@acme.com
 		$ ppgit clear
 
+		$ ppgit info
+
 		$ ppgit --email_root *@acme.com
 		$ ppgit john andy
 

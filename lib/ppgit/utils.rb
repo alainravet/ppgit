@@ -49,3 +49,25 @@ def usage_message
   path = File.expand_path(File.join(File.dirname(__FILE__), 'usage.txt'))
   File.open(path).read
 end
+
+def info_message
+  name, email = get_git_value('user.name'), get_git_value('user.email')
+  email_root  = get_git_value('ppgit.emailroot')
+  s = ["\n~/.gitconfig :", "  ..."]
+  s << '  -------------------------------------------------------'
+  s << '  [user]'
+  s << "    name  = #{name }" unless blank?(name )
+  s << "    email = #{email}" unless blank?(email)
+  s << '  -------------------------------------------------------'
+  s << '  [ppgit]'
+  s << "    emailroot = #{email_root}" unless blank?(email_root)
+
+  name, email = get_git_value('user-before-ppgit.name'), get_git_value('user-before-ppgit.email')
+  s << '  [user-before-ppgit]'
+  s << "    name  = #{name }" unless blank?(name )
+  s << "    email = #{email}" unless blank?(email)
+  s << '  -------------------------------------------------------'
+  s << '  ...'
+
+  s.join("\n")
+end
