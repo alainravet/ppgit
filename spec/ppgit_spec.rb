@@ -100,6 +100,9 @@ describe "`ppgit john andy andy_john@acme.com`" do
                   '  name = Alain Ravet'            ,
                   '  email = alainravet@gmail.com'  ]
 
+    before do
+      @cmd = "#{PPGIT_CMD} artie zane artie_zane@test.com"
+    end
 
     it "does not overwrite the values stored in user-before-ppgit" do
       expected = [  '[user]'                        ,
@@ -110,8 +113,14 @@ describe "`ppgit john andy andy_john@acme.com`" do
                     '  name = Alain Ravet'          , # not touched
                     '  email = alainravet@gmail.com'] #  ..
 
-      cmd = "#{PPGIT_CMD} artie zane artie_zane@test.com"
-      check_command_result(cmd, before, expected)
+
+      check_command_result(@cmd, before, expected)
     end
+
+    it "displays the info after the fact" do
+      output = execute_command(@cmd, before)
+      output.should match(/\[user\].*artie_zane.*\[ppgit\].*\[user-before-ppgit\].*alainravet@gmail.com/mi)
+    end
+
   end
 end

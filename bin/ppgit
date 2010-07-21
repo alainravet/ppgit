@@ -5,6 +5,7 @@ require 'ppgit/utils'
 
 if 0 == ARGV.length
   puts usage_message()
+
 else
   # for testing, we pass an explicit - temporary - config file.
   file_part = argv_value_of('--file')
@@ -16,12 +17,13 @@ else
   end
 
   if ARGV == %w(info)
-    puts info_message
+  # puts info_message
 
   elsif ARGV == %w(clear)
     restore_git_value :from => 'user-before-ppgit.name' , :to => 'user.name'
     restore_git_value :from => 'user-before-ppgit.email', :to => 'user.email'
     `git config #{file_part} --remove-section user-before-ppgit`
+  # puts info_message
 
   elsif [2,3].include?(ARGV.length)
 
@@ -38,5 +40,8 @@ else
     if pair_email
       set_git_value 'user.email' , pair_email
     end
+  # puts info_message
   end
+
+  puts info_message
 end

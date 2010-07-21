@@ -47,3 +47,10 @@ def check_command_result(git_command, before, expected)
   actual_text = File.open(config_file_path).read.gsub(/\t/, '  ').chomp
   actual_text.should == expected
 end
+
+def execute_command(git_command, before)
+  before = before.join("\n")
+  config_file_path = temp_from_string(before).path
+
+  output = `#{git_command} --file #{config_file_path}`
+end

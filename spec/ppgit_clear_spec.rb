@@ -46,4 +46,11 @@ describe "`ppgit clear`" do
     check_command_result(@cmd, before, expected)
   end
 
+  it "displays the info after the fact" do
+    before   = [  '[ppgit]'                         ,
+                  '  emailroot = old+*@gmail.com'  ]
+    output = execute_command(@cmd, before)
+    output.should match(/\[user\].*\[ppgit\].*emailroot.*\[user-before-ppgit\].*/mi)
+  end
+
 end
