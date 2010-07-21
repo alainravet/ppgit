@@ -1,0 +1,66 @@
+
+
+--------------------------------------------------------------------------------
+ppgit : quickly update ~/.gitconfig for pair-programming sessions.
+--------------------------------------------------------------------------------
+
+  Quick Usage:
+
+    $ ppgit john andy
+    $ ppgit john andy andy_john@acme.com
+    $ ppgit clear
+    $ ppgit --email_root *@acme.com
+
+
+  Usage:
+
+    1 - When the pairing session starts, quickly set user.name and user.email to the pair values:
+
+      $ ppgit john andy  andy_john@mycompany.com
+
+        => will update ~/.gitconfig to
+      
+            [user]
+              name = andy_john
+              email = andy_john@mycompany.com
+
+
+    2 - When the session is finished, restore ~/.gitconfig to your original local values :
+
+      $ ppgit clear
+
+        => will restore ~/.gitconfig to (f.ex) :
+
+            [user]
+              name = Your Name
+              email = your_email@address.com
+
+
+    3 - If your teams pairs share a common email pattern
+            (ex: ann_bob@acme.com, cid_dan@acme.com),
+        , you can specify it once and for all :
+
+      $ ppgit --email_root   *@acme.com
+
+        =>
+            $ ppgit bob al
+            $ ppgit dan cid
+        are now the same as
+            $ ppgit bob al   al_bob@acme.com
+            $ ppgit dan cid  cid_dan@acme.com
+
+        Tip : use 1 gmail address + n aliases, so you can choose 1 unique gravatar for each pair :
+      $ ppgit --email_root   mycompany+*@gmail.com
+        => you'll get
+          mycompany+ann_bob@gmail.com
+          mycompany+bob_cid@gmail.com
+          etc..
+        for free
+
+  Installation :
+  
+    $ gem install ppgit
+
+  Report bugs to http://github.com/alainravet/ppgit
+--------------------------------------------------------------------------------
+

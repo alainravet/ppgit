@@ -44,3 +44,8 @@ def email_from_email_root_and_user(pair_user)
       emailroot.gsub('*', pair_user)
 end
 
+
+def usage_message
+  path = File.expand_path(File.join(File.dirname(__FILE__), 'usage.txt'))
+  File.open(path).read
+end
