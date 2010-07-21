@@ -5,15 +5,14 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ppgit}
-  s.version = "0.1.0"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alain Ravet"]
   s.date = %q{2010-07-21}
-  s.default_executable = %q{ppgit}
   s.description = %q{git users' pairs switcher}
   s.email = %q{alain.ravet+git@gmail.com}
-  s.executables = ["ppgit"]
+  s.executables = ["git-pp", "ppgit"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.markdown"
@@ -26,6 +25,7 @@ Gem::Specification.new do |s|
      "README.markdown",
      "Rakefile",
      "VERSION",
+     "bin/git-pp",
      "bin/ppgit",
      "lib/ppgit.rb",
      "lib/ppgit/usage.txt",

@@ -1,2 +1,4 @@
+0.2.0
+  - added `git pp` syntax (same as `ppgit`) 
 0.1.0
   - initial release.

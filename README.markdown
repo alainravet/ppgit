@@ -8,11 +8,11 @@ When you're done, restore your local git config in a snap.
 Quick Usage :
 -------------
 
-		$ ppgit john andy
 		$ ppgit john andy andy_john@acme.com
-
 		$ ppgit clear
+
 		$ ppgit --email_root *@acme.com
+		$ ppgit john andy
 
 remark : 'ppgit' is a synonym of 'git pp' => you can write
 
