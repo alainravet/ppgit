@@ -3,13 +3,13 @@ def blank?(string_or_nil)
 end
 
 
-def get_git_value(key, options)
-  value = (`git config #{options[:file_part]} --get  #{key}`).chomp
+def get_git_value(key)
+  value = (`git config #{PPGIT_FILE_PART} --get  #{key}`).chomp
   value
 end
 
-def set_git_value(key, value, options)
-  `git config #{options[:file_part]} #{key} '#{value}'`
+def set_git_value(key, value)
+  `git config #{PPGIT_FILE_PART} #{key} '#{value}'`
 end
 
 def argv_value_of(prefix)
@@ -22,23 +22,23 @@ end
 def backup_git_value(options)
   source, target = options[:from], options[:to]
 
-  target_already_occupied = !blank?(get_git_value(target,  :file_part => options[:file_part]))
-  nothing_to_backup       =  blank?(get_git_value(source,  :file_part => options[:file_part]))
+  target_already_occupied = !blank?(get_git_value(target))
+  nothing_to_backup       =  blank?(get_git_value(source))
 
   return if target_already_occupied || nothing_to_backup
-  set_git_value(target, get_git_value(source,  :file_part => options[:file_part]), :file_part => options[:file_part])
+  set_git_value(target, get_git_value(source))
 end
 
 def restore_git_value(options)
   source, target = options[:from], options[:to]
 
-  nothing_to_restore      =  blank?(get_git_value(source,  :file_part => options[:file_part]))
+  nothing_to_restore      =  blank?(get_git_value(source))
   return if nothing_to_restore
-  set_git_value(target, get_git_value(source,  :file_part => options[:file_part]), :file_part => options[:file_part])
+  set_git_value(target, get_git_value(source))
 end
 
-def email_from_email_root_and_user(pair_user, options)
-  emailroot = get_git_value('ppgit.emailroot', :file_part => options[:file_part])
+def email_from_email_root_and_user(pair_user)
+  emailroot = get_git_value('ppgit.emailroot')
   blank?(emailroot) ? 
       nil :
       emailroot.gsub('*', pair_user)
