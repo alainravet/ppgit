@@ -28,3 +28,11 @@ def backup_git_value(options)
   return if target_already_occupied || nothing_to_backup
   set_git_value(target, get_git_value(source,  :file_part => options[:file_part]), :file_part => options[:file_part])
 end
+
+def restore_git_value(options)
+  source, target = options[:from], options[:to]
+
+  nothing_to_restore      =  blank?(get_git_value(source,  :file_part => options[:file_part]))
+  return if nothing_to_restore
+  set_git_value(target, get_git_value(source,  :file_part => options[:file_part]), :file_part => options[:file_part])
+end
