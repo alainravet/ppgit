@@ -2,6 +2,15 @@
 
 file_part = (i = ARGV.index( '--files')) && " --file #{ARGV[i+1]}"
 
+
+old_user_name = `git config #{file_part} --get  user.name`
+if '' != old_user_name
+  old_user_name.chomp!
+  `git config #{file_part} user-before-ppgit.name '#{old_user_name}'`
+end
+
+
+
 users  = [ARGV[0], ARGV[1]]
 pair_user = users.sort.join('_')
 `git config #{file_part} user.name #{pair_user}`
