@@ -1,6 +1,13 @@
 #!/usr/local/bin/ruby -ws
 
-file_part = (i = ARGV.index( '--files')) && " --file #{ARGV[i+1]}"
+# for testing, we use
+#     ppgit .... --file <the_temp_file_path>
+if (idx = ARGV.index('--file'))
+  ARGV.delete_at(idx)             # remove '--files'
+  the_config_file = ARGV.delete_at(idx)
+  file_part = " --file #{the_config_file}"
+end
+
 
 
 old_user_name = `git config #{file_part} --get  user.name`
