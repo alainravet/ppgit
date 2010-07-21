@@ -18,6 +18,11 @@ end
 
 
 
-users  = [ARGV[0], ARGV[1]]
-pair_user = users.sort.join('_')
+two_users  = [ARGV[0], ARGV[1]]
+pair_user  = two_users.sort.join('_')
+pair_email = ARGV[2]
+
 `git config #{file_part} user.name #{pair_user}`
+if pair_email
+  `git config #{file_part} user.email #{pair_email}`
+end
