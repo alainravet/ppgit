@@ -8,10 +8,11 @@ file_part = argv_value_of('--file')
 file_part &&= "--file #{file_part}"
 PPGIT_FILE_PART = file_part
 
-if ARGV.first == '--email_root'
-  set_git_value 'ppgit.emailroot' , argv_value_of('--email_root')
+if emailroot = argv_value_of('--email_root')
+  set_git_value 'ppgit.emailroot' , emailroot
+end
 
-elsif ARGV == %w(clear)
+if ARGV == %w(clear)
   restore_git_value :from => 'user-before-ppgit.name' , :to => 'user.name'
   restore_git_value :from => 'user-before-ppgit.email', :to => 'user.email'
   `git config #{file_part} --remove-section user-before-ppgit`
