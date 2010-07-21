@@ -37,4 +37,13 @@ describe "`ppgit clear`" do
 
     check_command_result(@cmd, before, expected)
   end
+
+  example 'when there is an emailroot : the emailroot is not cleared' do
+    before   = [  '[ppgit]'                         ,
+                  '  emailroot = old+*@gmail.com'  ]
+    expected = before
+
+    check_command_result(@cmd, before, expected)
+  end
+
 end

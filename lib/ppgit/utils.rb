@@ -36,3 +36,11 @@ def restore_git_value(options)
   return if nothing_to_restore
   set_git_value(target, get_git_value(source,  :file_part => options[:file_part]), :file_part => options[:file_part])
 end
+
+def email_from_email_root_and_user(pair_user, options)
+  emailroot = get_git_value('ppgit.emailroot', :file_part => options[:file_part])
+  blank?(emailroot) ? 
+      nil :
+      emailroot.gsub('*', pair_user)
+end
+

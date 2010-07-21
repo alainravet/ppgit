@@ -25,6 +25,21 @@ describe "`ppgit john andy`" do
     end
   end
 
+  example 'when there is only an ppgit.emailroot' do
+    before   = [  '[ppgit]'                         ,
+                  '  emailroot = pp+*@gmail.com'    ]
+
+    expected = [  '[ppgit]'                         ,
+                  '  emailroot = pp+*@gmail.com'    ,
+                  '[user]'                          ,
+                  '  name = andy_john'              ,
+                  '  email = pp+andy_john@gmail.com' ,
+               ]
+
+    cmd = "#{PPGIT_CMD} john andy"
+    check_command_result(cmd, before, expected)
+  end
+
 
   context 'when there is a user.name' do
     before = [    '[user]'                ,
@@ -52,6 +67,9 @@ describe "`ppgit john andy`" do
     end
   end
 
+end
+
+describe "`ppgit john andy andy_john@acme.com`" do
 
   context 'when there is a user.name and a user.email' do
     before = [    '[user]'                          ,

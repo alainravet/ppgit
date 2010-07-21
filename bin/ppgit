@@ -1,4 +1,5 @@
-#!/usr/local/bin/ruby -ws
+#!/usr/local/bin/ruby -w
+
 $: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib' ))
 require 'ppgit/utils'
 
@@ -6,18 +7,26 @@ require 'ppgit/utils'
 file_part = argv_value_of('--file')
 file_part &&= "--file #{file_part}"
 
+email_root = argv_value_of('--email_root')
+if email_root
+  set_git_value 'ppgit.emailroot' , email_root, :file_part => file_part
+end
+
 if ARGV == %w(clear)
   restore_git_value :to => 'user.name' , :from => 'user-before-ppgit.name'  , :file_part => file_part
   restore_git_value :to => 'user.email', :from => 'user-before-ppgit.email' , :file_part => file_part
   `git config #{file_part} --remove-section user-before-ppgit`
 
-else
+elsif [2,3].include?(ARGV.length)
+
   backup_git_value :from => 'user.name' , :to => 'user-before-ppgit.name'  , :file_part => file_part
   backup_git_value :from => 'user.email', :to => 'user-before-ppgit.email' , :file_part => file_part
 
   two_users  = [ARGV[0], ARGV[1]]
   pair_user  = two_users.sort.join('_')
+
   pair_email = ARGV[2]
+  pair_email ||= email_from_email_root_and_user(pair_user, :file_part => file_part)
 
   set_git_value 'user.name'  , pair_user , :file_part => file_part
   if pair_email
