@@ -72,4 +72,28 @@ describe "`ppgit john andy`" do
     end
   end
 
+
+  context 'when there is a user.name + email AND stored values in user-before-ppgit' do
+    before = [    '[user]'                          ,
+                  '  name = andy_john'            ,
+                  '  email = andy_john@test.com'  ,
+
+                  '[user-before-ppgit]'             ,
+                  '  name = Alain Ravet'            ,
+                  '  email = alainravet@gmail.com'  ]
+
+
+    it "does not overwrite the values stored in user-before-ppgit" do
+      expected = [  '[user]'                        ,
+                    '  name = artie_zane'           , # new values
+                    '  email = artie_zane@test.com' , #  ..
+
+                    '[user-before-ppgit]'           ,
+                    '  name = Alain Ravet'          , # not touched
+                    '  email = alainravet@gmail.com'] #  ..
+
+      cmd = "#{PPGIT_CMD} artie zane artie_zane@test.com"
+      check_command_result(cmd, before, expected)
+    end
+  end
 end

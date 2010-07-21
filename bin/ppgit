@@ -3,17 +3,20 @@ $: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib' ))
 require 'ppgit/utils'
 
 # for testing, we pass an explicit - temporary - config file.
-file_part = value_of('--file')
+file_part = argv_value_of('--file')
 file_part &&= "--file #{file_part}"
 
-copy_git_value :from => 'user.name' , :to => 'user-before-ppgit.name'  , :file_part => file_part
-copy_git_value :from => 'user.email', :to => 'user-before-ppgit.email' , :file_part => file_part
 
-
+backup_git_value :from => 'user.name' , :to => 'user-before-ppgit.name'  , :file_part => file_part
+backup_git_value :from => 'user.email', :to => 'user-before-ppgit.email' , :file_part => file_part
 
 two_users  = [ARGV[0], ARGV[1]]
 pair_user  = two_users.sort.join('_')
 pair_email = ARGV[2]
 
-store_git_value pair_user , :to => 'user.name'  , :file_part => file_part
-store_git_value pair_email, :to => 'user.email' , :file_part => file_part
+set_git_value 'user.name'  , pair_user , :file_part => file_part
+if pair_email
+  set_git_value 'user.email' , pair_email, :file_part => file_part
+end
+
+

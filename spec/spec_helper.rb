@@ -26,7 +26,7 @@ end
 
 def temp_from_string(string, file_basename=nil)
   f = Tempfile.new(file_basename) 
-  f.write(string.strip)
+  f.write(string)
   f.close
   f
 end
