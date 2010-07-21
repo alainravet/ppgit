@@ -1,20 +1,13 @@
 #!/usr/local/bin/ruby -ws
+$: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib' ))
+require 'ppgit/utils'
 
-# for testing, we use
-#     ppgit .... --file <the_temp_file_path>
-if (idx = ARGV.index('--file'))
-  ARGV.delete_at(idx)             # remove '--files'
-  the_config_file = ARGV.delete_at(idx)
-  file_part = " --file #{the_config_file}"
-end
+# for testing, we pass an explicit - temporary - config file.
+file_part = value_of('--file')
+file_part &&= "--file #{file_part}"
 
-
-
-old_user_name = `git config #{file_part} --get  user.name`
-if '' != old_user_name
-  old_user_name.chomp!
-  `git config #{file_part} user-before-ppgit.name '#{old_user_name}'`
-end
+copy_git_value :from => 'user.name' , :to => 'user-before-ppgit.name'  , :file_part => file_part
+copy_git_value :from => 'user.email', :to => 'user-before-ppgit.email' , :file_part => file_part
 
 
 
@@ -22,7 +15,5 @@ two_users  = [ARGV[0], ARGV[1]]
 pair_user  = two_users.sort.join('_')
 pair_email = ARGV[2]
 
-`git config #{file_part} user.name #{pair_user}`
-if pair_email
-  `git config #{file_part} user.email #{pair_email}`
-end
+store_git_value pair_user , :to => 'user.name'  , :file_part => file_part
+store_git_value pair_email, :to => 'user.email' , :file_part => file_part

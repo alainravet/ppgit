@@ -30,7 +30,6 @@ describe "`ppgit john andy`" do
     before = [    '[user]'                ,
                   '  name = Alain Ravet'  ]
 
-
     it "stores the existing user.name and sets the pair user as the new user.name" do
       expected = [  '[user]'                ,
                     '  name = andy_john'    ,
@@ -47,6 +46,26 @@ describe "`ppgit john andy`" do
                     '  email = andy_john@test.com'  ,
                     '[user-before-ppgit]'           ,
                     '  name = Alain Ravet'          ]
+
+      cmd = "#{PPGIT_CMD} john andy andy_john@test.com"
+      check_command_result(cmd, before, expected)
+    end
+  end
+
+
+  context 'when there is a user.name and a user.email' do
+    before = [    '[user]'                          ,
+                  '  name = Alain Ravet'            ,
+                  '  email = alainravet@gmail.com'  ]
+
+
+    it "stores the 2 existing values and sets the pair email and name as the new values" do
+      expected = [  '[user]'                        ,
+                    '  name = andy_john'            ,
+                    '  email = andy_john@test.com'  ,
+                    '[user-before-ppgit]'           ,
+                    '  name = Alain Ravet'          ,
+                    '  email = alainravet@gmail.com']
 
       cmd = "#{PPGIT_CMD} john andy andy_john@test.com"
       check_command_result(cmd, before, expected)
