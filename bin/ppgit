@@ -1,4 +1,4 @@
-#!/usr/local/bin/ruby -w
+#!/usr/bin/env ruby -w
 
 $: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib' ))
 require 'ppgit/utils'
