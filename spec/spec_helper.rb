@@ -36,7 +36,15 @@ def expected_contents(file_name)
   File.open(f).read
 end
 
+
 PPGIT_CMD = File.expand_path(File.dirname(__FILE__)) + '/../bin/ppgit'
+
+# Usage :
+#  @output = execute_command( ppgit("info"), contents)
+def ppgit(string)
+  "#{PPGIT_CMD} #{string}"
+end
+
 
 def check_command_result(git_command, before, expected)
   before, expected = before.join("\n"), expected.join("\n")

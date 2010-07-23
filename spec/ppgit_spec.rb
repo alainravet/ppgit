@@ -119,7 +119,7 @@ describe "`ppgit john andy andy_john@acme.com`" do
 
     it "displays the info after the fact" do
       output = execute_command(@cmd, before)
-      output.should match(/\[user\].*artie_zane.*\[ppgit\].*\[user-before-ppgit\].*alainravet@gmail.com/mi)
+      output.should match(/\[user\]/mi)
     end
 
   end

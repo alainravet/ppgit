@@ -3,9 +3,9 @@ def blank?(string_or_nil)
 end
 
 
-def get_git_value(key)
-  value = (`git config #{PPGIT_FILE_PART} --get  #{key}`).chomp
-  value
+def get_git_value(key, source=nil)
+  where = source || PPGIT_FILE_PART
+  (`git config #{where} --get  #{key}`).chomp
 end
 
 def set_git_value(key, value)
@@ -50,23 +50,32 @@ def usage_message
   File.open(path).read
 end
 
-def info_message
-  name, email = get_git_value('user.name'), get_git_value('user.email')
-  email_root  = get_git_value('ppgit.emailroot')
+def info_message(source=nil)
+  name, email = get_git_value('user.name', source), get_git_value('user.email', source)
+  email_root  = get_git_value('ppgit.emailroot', source)
   s = ["\n~/.gitconfig :", "  ..."]
-  s << '  -------------------------------------------------------'
-  s << '  [user]'
-  s << "    name  = #{name }" unless blank?(name )
-  s << "    email = #{email}" unless blank?(email)
-  s << '  -------------------------------------------------------'
-  s << '  [ppgit]'
-  s << "    emailroot = #{email_root}" unless blank?(email_root)
-
-  name, email = get_git_value('user-before-ppgit.name'), get_git_value('user-before-ppgit.email')
-  s << '  [user-before-ppgit]'
-  s << "    name  = #{name }" unless blank?(name )
-  s << "    email = #{email}" unless blank?(email)
-  s << '  -------------------------------------------------------'
+  s = []
+  s << "  ------------------------------------------------------- SOURCE  = #{source}"
+  if blank?(name) && blank?(email)
+    s << '  [user] is empty (user.email and user.name are not set)'
+  else
+    s << '  [user]'
+    s << "    name  = #{name }" unless blank?(name )
+    s << "    email = #{email}" unless blank?(email)
+    s << '  -------------------------------------------------------'
+  end
+  unless blank?(email_root)
+    s << '  [ppgit]'
+    s << "    emailroot = #{email_root}" unless blank?(email_root)
+    s << '  -------------------------------------------------------'
+  end
+  name, email = get_git_value('user-before-ppgit.name', source), get_git_value('user-before-ppgit.email', source)
+  unless blank?(name) && blank?(email)
+    s << '  [user-before-ppgit]'
+    s << "    name  = #{name }" unless blank?(name )
+    s << "    email = #{email}" unless blank?(email)
+    s << '  -------------------------------------------------------'
+  end
   s << '  ...'
 
   s.join("\n")
