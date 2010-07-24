@@ -16,8 +16,17 @@ def get_git_value(key, source=nil)
   (`git config #{where} --get  #{key}`).chomp
 end
 
+def get_global_git_value(key, source=nil)
+  where = source || PPGIT_GLOBAL_FILE_PART
+  (`git config #{where} --get  #{key}`).chomp
+end
+
 def set_git_value(key, value)
   `git config #{PPGIT_FILE_PART} #{key} '#{value}'`
+end
+
+def set_global_git_value(key, value)
+  `git config #{PPGIT_GLOBAL_FILE_PART} #{key} '#{value}'`
 end
 
 
@@ -40,7 +49,7 @@ def restore_git_value(options)
 end
 
 def email_from_email_root_and_user(pair_user)
-  emailroot = get_git_value('ppgit.emailroot')
+  emailroot = get_global_git_value('ppgit.emailroot')
   blank?(emailroot) ? 
       nil :
       emailroot.gsub('*', pair_user)

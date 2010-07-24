@@ -9,7 +9,7 @@ end
 
 
 def do_ppgit_emailroot(emailroot)
-  set_git_value 'ppgit.emailroot', emailroot
+  set_global_git_value 'ppgit.emailroot', emailroot
 end
 
 
