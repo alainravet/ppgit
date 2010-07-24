@@ -1,5 +1,13 @@
+
+def argv_value_of(prefix)
+  if (idx = ARGV.index(prefix))
+    ARGV.delete_at(idx)             # ex: remove '--files'
+    the_value = ARGV.delete_at(idx)
+  end
+end
+
 def blank?(string_or_nil)
-  string_or_nil.nil? || '' == string_or_nil.strip
+  string_or_nil.nil? || ('' == string_or_nil.strip)
 end
 
 
@@ -12,12 +20,6 @@ def set_git_value(key, value)
   `git config #{PPGIT_FILE_PART} #{key} '#{value}'`
 end
 
-def argv_value_of(prefix)
-  if (idx = ARGV.index(prefix))
-    ARGV.delete_at(idx)             # ex: remove '--files'
-    the_value = ARGV.delete_at(idx)
-  end
-end
 
 def backup_git_value(options)
   source, target = options[:from], options[:to]
@@ -42,41 +44,4 @@ def email_from_email_root_and_user(pair_user)
   blank?(emailroot) ? 
       nil :
       emailroot.gsub('*', pair_user)
-end
-
-
-def usage_message
-  path = File.expand_path(File.join(File.dirname(__FILE__), 'usage.txt'))
-  File.open(path).read
-end
-
-def info_message(source=nil)
-  name, email = get_git_value('user.name', source), get_git_value('user.email', source)
-  email_root  = get_git_value('ppgit.emailroot', source)
-  s = ["\n~/.gitconfig :", "  ..."]
-  s = []
-  s << "  ------------------------------------------------------- SOURCE  = #{source}"
-  if blank?(name) && blank?(email)
-    s << '  [user] is empty (user.email and user.name are not set)'
-  else
-    s << '  [user]'
-    s << "    name  = #{name }" unless blank?(name )
-    s << "    email = #{email}" unless blank?(email)
-    s << '  -------------------------------------------------------'
-  end
-  unless blank?(email_root)
-    s << '  [ppgit]'
-    s << "    emailroot = #{email_root}" unless blank?(email_root)
-    s << '  -------------------------------------------------------'
-  end
-  name, email = get_git_value('user-before-ppgit.name', source), get_git_value('user-before-ppgit.email', source)
-  unless blank?(name) && blank?(email)
-    s << '  [user-before-ppgit]'
-    s << "    name  = #{name }" unless blank?(name )
-    s << "    email = #{email}" unless blank?(email)
-    s << '  -------------------------------------------------------'
-  end
-  s << '  ...'
-
-  s.join("\n")
 end
