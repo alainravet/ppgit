@@ -1,10 +1,17 @@
 require 'ppgit/utils'
 
 
+
 def do_ppgit_clear
-  restore_git_value :from => 'user-before-ppgit.name', :to => 'user.name'
-  restore_git_value :from => 'user-before-ppgit.email', :to => 'user.email'
-  `git config #{LOCAL_CONFIG_FILE} --remove-section user-before-ppgit 2> /dev/null`
+  backup_is_same_as_global?('name') ?
+    unset_local_git_value('user.name') :
+    restore_git_value( :from => 'user-before-ppgit.name', :to => 'user.name')
+
+  backup_is_same_as_global?('email') ?
+    unset_local_git_value('user.email') :
+    restore_git_value(:from => 'user-before-ppgit.email', :to => 'user.email')
+
+  remove_local_section('user-before-ppgit')
 end
 
 

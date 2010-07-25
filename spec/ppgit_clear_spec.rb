@@ -60,4 +60,28 @@ describe "`ppgit clear`" do
       @output.should match(/.*\[ppgit\].*emailroot.*/mi)
     end
   end
+
+
+  context 'when the backup user.name is the same as the global one' do
+    before(:all) do
+      @before_local   = [  '[user]'                           , # section to erase
+                            '  name = andy_john'              , #
+                            '  email = andy_john@test.com'    , #
+
+                            '[user-before-ppgit]'             , # section to erase
+                            '  name = Alain Ravet'            , #
+                            '  email = alainravet@gmail.com'  ] #
+
+      @before_global  = [   '[user]'                          ,
+                            '  name = Alain Ravet'            ,
+                            '  email = alainravet@gmail.com'  ]
+
+      @actual_local, @actual_global, @output = execute_command_g( ppgit("clear"), @before_local, @before_global)
+    end
+
+    it('clears the local config file, but does not restore the values that are already in global') do
+      expected_local  = ['[user]']
+      @actual_local.should == expected_local.join("\n")
+    end
+  end
 end
