@@ -19,13 +19,18 @@ else
   end
 
   if ARGV == %w(info)
+    do_ppgit_info()
 
   elsif ARGV == %w(clear)
     do_ppgit_clear
+    do_ppgit_info()
 
   elsif [2, 3].include?(ARGV.length)
     do_ppgit_set_pair_as_a_user(user_1=ARGV[0], user_2=ARGV[1], pair_email=ARGV[2])
-  end
+    do_ppgit_info()
 
-  do_ppgit_info()
+  else
+    do_ppgit_show_usage_message()
+
+  end
 end
