@@ -1,4 +1,6 @@
 
+# ------------------------------------------------------------------------
+
 def argv_value_of(prefix)
   if (idx = ARGV.index(prefix))
     ARGV.delete_at(idx)             # ex: remove '--files'
@@ -13,57 +15,52 @@ end
 # separator = --file, or --global_file
 def config_file_part(separator)
   (config_file = argv_value_of(separator)) ?
-    "--file #{config_file}":
+    "--file #{config_file}" :
     nil
 end
 
+# ------------------------------------------------------------------------
+
+def get_local_git_value( key) get_value(key, LOCAL_CONFIG_FILE ) end
+def get_global_git_value(key) get_value(key, GLOBAL_CONFIG_FILE) end
+
+def set_local_git_value( key, value) set_value(key, value, LOCAL_CONFIG_FILE ) end
+def set_global_git_value(key, value) set_value(key, value, GLOBAL_CONFIG_FILE) end
 
 def get_value(key, where)
   (`git config #{where} --get  #{key}`).chomp
 end
-
-def get_git_value(key)
-  get_value(key, PPGIT_FILE_PART)
-end
-
-def get_global_git_value(key)
-  get_value(key, PPGIT_GLOBAL_FILE_PART)
-end
-
 def set_value(key, value, where)
   `git config #{where} #{key} '#{value}'`
 end
 
-def set_git_value(key, value)
-  set_value(key, value, PPGIT_FILE_PART)
+# ------------------------------------------------------------------------
+
+def make_email_from_email_root_and_user(pair_user)
+  emailroot = get_global_git_value('ppgit.emailroot')
+  blank?(emailroot) ?
+      nil :
+      emailroot.gsub('*', pair_user)
 end
 
-def set_global_git_value(key, value)
-  set_value(key, value, PPGIT_GLOBAL_FILE_PART)
-end
-
+# ------------------------------------------------------------------------
 
 def backup_git_value(options)
   source, target = options[:from], options[:to]
 
-  target_already_occupied = !blank?(get_git_value(target))
-  nothing_to_backup       =  blank?(get_git_value(source))
+  target_already_occupied = !blank?(get_local_git_value(target))
+  nothing_to_backup       =  blank?(get_local_git_value(source))
 
   return if target_already_occupied || nothing_to_backup
-  set_git_value(target, get_git_value(source))
+  set_local_git_value(target, get_local_git_value(source))
 end
 
 def restore_git_value(options)
   source, target = options[:from], options[:to]
 
-  nothing_to_restore      =  blank?(get_git_value(source))
+  nothing_to_restore      =  blank?(get_local_git_value(source))
   return if nothing_to_restore
-  set_git_value(target, get_git_value(source))
+  set_local_git_value(target, get_local_git_value(source))
 end
 
-def email_from_email_root_and_user(pair_user)
-  emailroot = get_global_git_value('ppgit.emailroot')
-  blank?(emailroot) ? 
-      nil :
-      emailroot.gsub('*', pair_user)
-end
+# ------------------------------------------------------------------------

@@ -1,18 +1,18 @@
 #!/usr/bin/env ruby -w
 
+# for testing, we pass an explicit - temporary - config file path through --file and/or --global_file
+in_test_mode = ARGV.include?('--file')
+
 $: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib' ))
-require 'ppgit/parts'
+require 'ppgit/commands'
 
 
 if ARGV.empty?
   do_ppgit_show_usage_message()
 
 else
-  # for testing, we pass an explicit - temporary - config file through --file
-  in_test_mode = ARGV.include?('--file')
-
-  PPGIT_FILE_PART        = in_test_mode ? config_file_part('--file'       ) : nil
-  PPGIT_GLOBAL_FILE_PART = in_test_mode ? config_file_part('--global_file') : '--global'
+  LOCAL_CONFIG_FILE  = in_test_mode ? config_file_part('--file'       ) : nil
+  GLOBAL_CONFIG_FILE = in_test_mode ? config_file_part('--global_file') : '--global'
 
   if emailroot = argv_value_of('--email_root')
     do_ppgit_emailroot(emailroot)

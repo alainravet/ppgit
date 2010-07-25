@@ -4,7 +4,7 @@ require 'ppgit/utils'
 def do_ppgit_clear
   restore_git_value :from => 'user-before-ppgit.name', :to => 'user.name'
   restore_git_value :from => 'user-before-ppgit.email', :to => 'user.email'
-  `git config #{PPGIT_FILE_PART} --remove-section user-before-ppgit 2> /dev/null`
+  `git config #{LOCAL_CONFIG_FILE} --remove-section user-before-ppgit 2> /dev/null`
 end
 
 
@@ -20,11 +20,11 @@ def do_ppgit_set_pair_as_a_user(user_1, user_2, pair_email)
   two_users  = [user_1, user_2]
   pair_user  = two_users.sort.join('_')
 
-  pair_email ||= email_from_email_root_and_user(pair_user)
+  pair_email ||= make_email_from_email_root_and_user(pair_user)
 
-  set_git_value 'user.name', pair_user
+  set_local_git_value 'user.name', pair_user
   if pair_email
-    set_git_value 'user.email', pair_email
+    set_local_git_value 'user.email', pair_email
   end
 end
 
@@ -36,8 +36,8 @@ end
 
 
 def do_ppgit_info
-  name, email = get_git_value('user.name'), get_git_value('user.email')
-  email_root  = get_git_value('ppgit.emailroot')
+  name, email = get_local_git_value('user.name'), get_local_git_value('user.email')
+  email_root  = get_local_git_value('ppgit.emailroot')
   s = []
   s << "  -------------------------------------------------------"
   if blank?(name) && blank?(email)
@@ -53,7 +53,7 @@ def do_ppgit_info
     s << "    emailroot = #{email_root}" unless blank?(email_root)
     s << '  -------------------------------------------------------'
   end
-  name, email = get_git_value('user-before-ppgit.name'), get_git_value('user-before-ppgit.email')
+  name, email = get_local_git_value('user-before-ppgit.name'), get_local_git_value('user-before-ppgit.email')
   unless blank?(name) && blank?(email)
     s << '  [user-before-ppgit]'
     s << "    name  = #{name }" unless blank?(name )
