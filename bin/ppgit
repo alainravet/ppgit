@@ -4,7 +4,7 @@
 in_test_mode = ARGV.include?('--file')
 
 $: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib' ))
-require 'ppgit/commands'
+require 'ppgit'
 
 
 if ARGV.empty?

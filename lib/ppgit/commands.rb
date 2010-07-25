@@ -1,5 +1,5 @@
-require 'ppgit/utils'
-
+require 'ppgit/git_utils'
+require 'ppgit/ppgit_utils'
 
 
 def do_ppgit_clear
@@ -35,6 +35,13 @@ def do_ppgit_set_pair_as_a_user(user_1, user_2, pair_email)
   end
 end
 
+def make_email_from_email_root_and_user(pair_user)
+  emailroot = get_global_git_value('ppgit.emailroot')
+  emailroot.blank? ?
+      nil :
+      emailroot.gsub('*', pair_user)
+end
+
 
 def do_ppgit_show_usage_message
   path = File.expand_path(File.join(File.dirname(__FILE__), 'usage.txt'))
@@ -47,24 +54,24 @@ def do_ppgit_info
   email_root  = get_local_git_value('ppgit.emailroot')
   s = []
   s << "  -------------------------------------------------------"
-  if blank?(name) && blank?(email)
+  if name.blank? && email.blank?
     s << '  [user] is empty (user.email and user.name are not set)'
   else
     s << '  [user]'
-    s << "    name  = #{name }" unless blank?(name )
-    s << "    email = #{email}" unless blank?(email)
+    s << "    name  = #{name }" unless name .blank?
+    s << "    email = #{email}" unless email.blank?
     s << '  -------------------------------------------------------'
   end
-  unless blank?(email_root)
+  unless email_root.blank?
     s << '  [ppgit]'
-    s << "    emailroot = #{email_root}" unless blank?(email_root)
+    s << "    emailroot = #{email_root}" unless email_root.blank?
     s << '  -------------------------------------------------------'
   end
   name, email = get_local_git_value('user-before-ppgit.name'), get_local_git_value('user-before-ppgit.email')
-  unless blank?(name) && blank?(email)
+  unless name.blank? && email.blank?
     s << '  [user-before-ppgit]'
-    s << "    name  = #{name }" unless blank?(name )
-    s << "    email = #{email}" unless blank?(email)
+    s << "    name  = #{name }" unless name .blank?
+    s << "    email = #{email}" unless email.blank?
     s << '  -------------------------------------------------------'
   end
   s << ' '
