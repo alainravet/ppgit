@@ -11,6 +11,7 @@ def do_ppgit_clear
     unset_local_git_value('user.email') :
     restore_git_value(:from => 'user-before-ppgit.email', :to => 'user.email')
 
+  remove_local_section('user') if empty_local_section?('user')
   remove_local_section('user-before-ppgit')
 end
 

@@ -13,8 +13,17 @@ end
 def get_value(key, where)
   (`git config #{where} #{key}`).chomp
 end
+
 def set_value(key, value, where)
   `git config #{where} #{key} '#{value}'`
 end
 
 
+def empty_local_section?(section)
+  res = `git config #{LOCAL_CONFIG_FILE} --get-regexp  user`
+  nof_values_in_section = res.
+                    split("\n").                                # 1 line per match
+                    select{|s| s.start_with?("#{section}.")}.   # reject [foot] when testing [foo]
+                    size
+  0 == nof_values_in_section
+end

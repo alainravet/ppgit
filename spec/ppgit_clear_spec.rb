@@ -9,8 +9,8 @@ describe "`ppgit clear`" do
       @before_global   = [ '[ppgit]' ]
       @actual_local, @actual_global = execute_command_g( ppgit("clear"), @before_local, @before_global)
     end
-    it("removes the empty [user-before-ppgit] section from .git/config" ) do
-      expected_local = [ '[user]']
+    it("removes the empty [user-before-ppgit] and [user] sections from .git/config" ) do
+      expected_local = []
       @actual_local.should == expected_local.join("\n")
     end
     it("doesn't change ~/.gitconfig") { @actual_global.should == @before_global.join("\n") }
@@ -62,7 +62,7 @@ describe "`ppgit clear`" do
   end
 
 
-  context 'when the backup user.name is the same as the global one' do
+  context 'when both the backup user.name and email are the same as the global values' do
     before(:all) do
       @before_local   = [  '[user]'                           , # section to erase
                             '  name = andy_john'              , #
@@ -70,17 +70,47 @@ describe "`ppgit clear`" do
 
                             '[user-before-ppgit]'             , # section to erase
                             '  name = Alain Ravet'            , #
-                            '  email = alainravet@gmail.com'  ] #
+                            '  email = alainravet@gmail.com'  ,
+
+                            '[userfoo]'                       ,
+                            '  ignore = bar'                  ] #
 
       @before_global  = [   '[user]'                          ,
                             '  name = Alain Ravet'            ,
                             '  email = alainravet@gmail.com'  ]
 
-      @actual_local, @actual_global, @output = execute_command_g( ppgit("clear"), @before_local, @before_global)
+      @actual_local, @actual_global = execute_command_g( ppgit("clear"), @before_local, @before_global)
     end
 
-    it('clears the local config file, but does not restore the values that are already in global') do
-      expected_local  = ['[user]']
+    it('removes the [user] section from the local config file, but does not restore the values that are already in global') do
+      expected_local  = [ '[userfoo]'       ,
+                          '  ignore = bar'
+                        ]
+      @actual_local.should == expected_local.join("\n")
+    end
+  end
+
+  context 'when only the backup user.name is the same as the global value' do
+    before(:all) do
+      @before_local   = [  '[user]'                           , #
+                            '  name = andy_john'              , # will disappear
+                            '  email = andy_john@test.com'    , # will be restored
+
+                            '[user-before-ppgit]'             , #
+                            '  name = Alain Ravet'            , #  won't be restored as it's the same as in --global
+                            '  email = anotheraddress@mail.com' ] # will be restored
+
+      @before_global  = [   '[user]'                          ,
+                            '  name = Alain Ravet'            ,
+                            '  email = alainravet@gmail.com'  ]
+
+      @actual_local, @actual_global = execute_command_g( ppgit("clear"), @before_local, @before_global)
+    end
+
+    it('restores the user.email but not the user.name') do
+      expected_local  = [ '[user]'                           ,
+                          '  email = anotheraddress@mail.com'    ]
+
       @actual_local.should == expected_local.join("\n")
     end
   end
