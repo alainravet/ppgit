@@ -1,3 +1,8 @@
+0.4.0
+  - use a bash & platform-agnostic ruby location
+  - fixed that ppgit.emailroot would be stored in the local config file, instead of ~/.gitconfig.
+  - 'ppgit clear' does not restore user.email/user.name values if they are already present in ~/.gitconfig.
+  - print Usage text when user enters invalid command
 0.3.0
  - display the info message after each command
 0.2.0

@@ -29,7 +29,7 @@ Usage :
 
 		$ ppgit john andy  andy_john@mycompany.com
 
-=> this will update ~/.gitconfig to
+=> this will update the .git/config of your project to
 
 		[user]
 			name = andy_john
@@ -39,7 +39,7 @@ Usage :
 			email = your_email@address.com
 
 
-#### 2 - When the session is finished, restore ~/.gitconfig to your original local values :
+#### 2 - When the session is finished, restore .git/config to your original local values :
 
 		$ ppgit clear
 
@@ -62,6 +62,8 @@ are now equivalent to :
 
 		$ ppgit bob al   al_bob@acme.com
 		$ ppgit dan cid  cid_dan@acme.com
+
+This info is stored in ~/.gitconfig => it works for all your projects.
 
 
 #### Tip : use 1 gmail address + n aliases, so you can choose 1 unique gravatar for each pair :

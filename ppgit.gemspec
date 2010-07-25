@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ppgit}
-  s.version = "0.3.0"
+  s.version = "0.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alain Ravet"]
-  s.date = %q{2010-07-21}
+  s.date = %q{2010-07-25}
   s.description = %q{git users' pairs switcher}
   s.email = %q{alain.ravet+git@gmail.com}
   s.executables = ["git-pp", "ppgit"]
@@ -28,6 +28,9 @@ Gem::Specification.new do |s|
      "bin/git-pp",
      "bin/ppgit",
      "lib/ppgit.rb",
+     "lib/ppgit/commands.rb",
+     "lib/ppgit/git_utils.rb",
+     "lib/ppgit/ppgit_utils.rb",
      "lib/ppgit/usage.txt",
      "lib/ppgit/utils.rb",
      "ppgit.gemspec",
