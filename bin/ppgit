@@ -3,15 +3,16 @@
 $: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib' ))
 require 'ppgit/parts'
 
+
 if ARGV.empty?
   do_ppgit_show_usage_message()
 
 else
   # for testing, we pass an explicit - temporary - config file through --file
-  file_part = argv_value_of('--file')
-  global_file_part = argv_value_of('--global_file') || file_part
-  PPGIT_FILE_PART        = (file_part        && "--file #{file_part}"       ) || nil
-  PPGIT_GLOBAL_FILE_PART = (global_file_part && "--file #{global_file_part}") || '--global'
+  in_test_mode = ARGV.include?('--file')
+
+  PPGIT_FILE_PART        = in_test_mode ? config_file_part('--file'       ) : nil
+  PPGIT_GLOBAL_FILE_PART = in_test_mode ? config_file_part('--global_file') : '--global'
 
   if emailroot = argv_value_of('--email_root')
     do_ppgit_emailroot(emailroot)
@@ -26,7 +27,5 @@ else
     do_ppgit_set_pair_as_a_user(user_1=ARGV[0], user_2=ARGV[1], pair_email=ARGV[2])
   end
 
-  do_ppgit_info('--file ~/.gitconfig')
-  do_ppgit_info('--file ./.git/config')
   do_ppgit_info()
 end

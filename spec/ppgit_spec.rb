@@ -1,126 +1,143 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe "`ppgit john andy`" do
+EMPTY_LOCAL_GIT_CONFIG  = []
 
-  context 'when there is no user name nor email nor ppgit.email.root in the config' do
-    before = [    '[a]'                 ]
-
-    it "combines the names alphabetically and stores them a the new user.name" do
-      expected = [  '[a]'                 ,
-                    '[user]'              ,
-                    '  name = andy_john'  ]
-
-      cmd = "#{PPGIT_CMD} john andy"
-      check_command_result(cmd, before, expected)
-    end
-
-    it "uses the 3rd parameter as new user.email" do
-      expected = [  '[a]'                           ,
-                    '[user]'                        ,
-                    '  name = andy_john'            ,
-                    '  email = andy_john@test.com'  ]
-
-      cmd = "#{PPGIT_CMD} john andy andy_john@test.com"
-      check_command_result(cmd, before, expected)
-    end
+context "with empty git config files"  do
+  before(:all) do
+    @before_local    = [ ]
+    @before_global   = [ ]
   end
 
-  example 'when there is only an ppgit.emailroot' do
-    before   = [  '[ppgit]'                         ,
-                  '  emailroot = pp+*@gmail.com'    ]
-
-    expected = [  '[ppgit]'                         ,
-                  '  emailroot = pp+*@gmail.com'    ,
-                  '[user]'                          ,
-                  '  name = andy_john'              ,
-                  '  email = pp+andy_john@gmail.com' ,
-               ]
-
-    cmd = "#{PPGIT_CMD} john andy"
-    check_command_result(cmd, before, expected)
+  describe "`ppgit john andy`" do
+    before(:all) do
+      cmd = ppgit('john andy')
+      @actual_local, @actual_global = execute_command_g( cmd, @before_local, @before_global)
+    end
+    it("combines the 2 names alphabetically and stores this user.name in  .git/config" ) do
+      expected_local = ['[user]'              ,
+                        '  name = andy_john'  ]
+      @actual_local.should == expected_local.join("\n")
+    end
+    it("doesn't change --global (~/.gitconfig)") { @actual_global.should == @before_global.join("\n") }
   end
 
 
-  context 'when there is a user.name' do
-    before = [    '[user]'                ,
-                  '  name = Alain Ravet'  ]
-
-    it "stores the existing user.name and sets the pair user as the new user.name" do
-      expected = [  '[user]'                ,
-                    '  name = andy_john'    ,
-                    '[user-before-ppgit]'   ,
-                    '  name = Alain Ravet'  ]
-
-      cmd = "#{PPGIT_CMD} john andy"
-      check_command_result(cmd, before, expected)
+  describe "`ppgit john andy andy_john@test.com`" do
+    before(:all) do
+      cmd = ppgit('john andy andy_john@test.com')
+      @actual_local, @actual_global = execute_command_g( cmd, @before_local, @before_global)
     end
+    it "also stores the 3rd parameter as user.email in .git/config" do
+      expected_local = ['[user]'                        ,
+                        '  name = andy_john'            ,
+                        '  email = andy_john@test.com'  ]
 
-    it "uses the 3rd parameter as new user.email" do
-      expected = [  '[user]'                        ,
-                    '  name = andy_john'            ,
-                    '  email = andy_john@test.com'  ,
-                    '[user-before-ppgit]'           ,
-                    '  name = Alain Ravet'          ]
-
-      cmd = "#{PPGIT_CMD} john andy andy_john@test.com"
-      check_command_result(cmd, before, expected)
+      @actual_local.should == expected_local.join("\n")
     end
+    it("doesn't change --global (~/.gitconfig)") { @actual_global.should == @before_global.join("\n") }
   end
-
 end
 
-describe "`ppgit john andy andy_john@acme.com`" do
 
-  context 'when there is a user.name and a user.email' do
-    before = [    '[user]'                          ,
-                  '  name = Alain Ravet'            ,
-                  '  email = alainravet@gmail.com'  ]
-
-
-    it "stores the 2 existing values and sets the pair email and name as the new values" do
-      expected = [  '[user]'                        ,
-                    '  name = andy_john'            ,
-                    '  email = andy_john@test.com'  ,
-                    '[user-before-ppgit]'           ,
-                    '  name = Alain Ravet'          ,
-                    '  email = alainravet@gmail.com']
-
-      cmd = "#{PPGIT_CMD} john andy andy_john@test.com"
-      check_command_result(cmd, before, expected)
+context 'when there is only a ppgit.emailroot' do
+  before(:all) do
+    @before_local    = [ ]
+    @before_global   = ['[ppgit]'                         ,
+                        '  emailroot = pp+*@gmail.com'    ]
+  end
+  describe "`ppgit john andy`" do
+    before(:all) do
+      cmd = ppgit('john andy')
+      @actual_local, @actual_global = execute_command_g( cmd, @before_local, @before_global)
     end
+    it( 'combines the users names and the emailroot to create and store user.email' ) do
+      expected_local = ['[user]'              ,
+                        '  name = andy_john'  ,
+                        '  email = pp+andy_john@gmail.com'  ]
+      @actual_local.should == expected_local.join("\n")
+    end
+    it("doesn't change --global (~/.gitconfig)") { @actual_global.should == @before_global.join("\n") }
+  end
+end
+
+
+context 'when there is only a user.name' do
+  before(:all) do
+    @before_local    = ['[user]' ,
+                        '  name = Alain Ravet']
+    @before_global   = []
   end
 
 
-  context 'when there is a user.name + email AND stored values in user-before-ppgit' do
-    before = [    '[user]'                          ,
-                  '  name = andy_john'            ,
-                  '  email = andy_john@test.com'  ,
-
-                  '[user-before-ppgit]'             ,
-                  '  name = Alain Ravet'            ,
-                  '  email = alainravet@gmail.com'  ]
-
-    before do
-      @cmd = "#{PPGIT_CMD} artie zane artie_zane@test.com"
-    end
-
-    it "does not overwrite the values stored in user-before-ppgit" do
-      expected = [  '[user]'                        ,
-                    '  name = artie_zane'           , # new values
-                    '  email = artie_zane@test.com' , #  ..
-
-                    '[user-before-ppgit]'           ,
-                    '  name = Alain Ravet'          , # not touched
-                    '  email = alainravet@gmail.com'] #  ..
-
-
-      check_command_result(@cmd, before, expected)
-    end
-
-    it "displays the info after the fact" do
-      output = execute_command(@cmd, before)
-      output.should match(/\[user\]/mi)
-    end
-
+  it '`ppgit john andy` stores the existing user.name and sets the pair user as the new user.name' do
+    cmd = ppgit('john andy' )
+    @actual_local, @actual_global = execute_command_g( cmd, @before_local, @before_global)
+    expected_local = ['[user]'                ,
+                      '  name = andy_john'    ,
+                      '[user-before-ppgit]'   ,
+                      '  name = Alain Ravet'  ]
+    @actual_local.should == expected_local.join("\n")
   end
+
+  it '`ppgit john andy andy_john@test.com` uses the 3rd parameter as new user.email' do
+    cmd = ppgit('john andy andy_john@test.com' )
+    @actual_local, @actual_global = execute_command_g( cmd, @before_local, @before_global)
+    expected_local = ['[user]'                ,
+                      '  name = andy_john'    ,
+                      '  email = andy_john@test.com'    ,
+                      '[user-before-ppgit]'   ,
+                      '  name = Alain Ravet'  ]
+    @actual_local.should == expected_local.join("\n")
+  end
+end
+
+
+context 'when there is a user.name and a user.email' do
+  before(:all) do
+    @before_local    = ['[user]' ,
+                        '  name = Alain Ravet'            ,
+                        '  email = alainravet@gmail.com'  ]
+    @before_global   = []
+  end
+
+  it '`ppgit john andy andy_john@test.com` stores the 2 existing values in [user-before-ppgit]' do
+    cmd = ppgit('john andy andy_john@test.com' )
+    @actual_local, @actual_global = execute_command_g( cmd, @before_local, @before_global)
+    expected_local = ['[user]'                ,
+                      '  name = andy_john'    ,
+                      '  email = andy_john@test.com',
+                      '[user-before-ppgit]'   ,
+                      '  name = Alain Ravet'  ,
+                      '  email = alainravet@gmail.com'  ]
+    @actual_local.should == expected_local.join("\n")
+  end
+end
+
+
+context 'when there is a user.name + email AND stored values in [user-before-ppgit]' do
+  before(:all) do
+    @before_local    = ['[user]' ,
+                        '  name = andy_john'            ,
+                        '  email = andy_john@test.com'  ,
+                        '[user-before-ppgit]'             ,
+                        '  name = Alain Ravet'            ,
+                        '  email = alainravet@gmail.com'  ]
+    @before_global   = []
+    cmd = ppgit('artie zane artie_zane@test.com' )
+    @actual_local, @actual_global, @output = execute_command_g( cmd, @before_local, @before_global)
+  end
+
+  it '`ppgit artie zane artie_zane@test.com`  does not overwrite the values stored in user-before-ppgit' do
+    expected_local = ['[user]'                ,
+                      '  name = artie_zane'    ,
+                      '  email = artie_zane@test.com',
+                      '[user-before-ppgit]'   ,
+                      '  name = Alain Ravet'  ,
+                      '  email = alainravet@gmail.com'  ]
+    @actual_local.should == expected_local.join("\n")
+  end
+  it "displays the info after the fact" do
+    @output.should match(/\[user\].+artie_zane@test.com/mi)
+  end
+
 end

@@ -9,11 +9,6 @@ Spec::Runner.configure do |config|
 
 end
 
-
-# ------------------------------------------------------------------------------
-# setup helpers
-# ------------------------------------------------------------------------------
-
 require 'tempfile'
 require 'ftools'
 
@@ -61,11 +56,11 @@ def execute_command_g(git_command, before, before_global)
   config_file_path = temp_from_string(before       ).path
   global_file_path = temp_from_string(before_global).path
 
-  `#{git_command} --file #{config_file_path} --global_file #{global_file_path}`
+  output = `#{git_command} --file #{config_file_path} --global_file #{global_file_path}`
 
   actual_text = File.open(config_file_path).read.gsub(/\t/, '  ').chomp
   actual_global_text = File.open(global_file_path).read.gsub(/\t/, '  ').chomp
-  [actual_text, actual_global_text]
+  [actual_text, actual_global_text, output]
 end
 
 def execute_command(git_command, before)

@@ -35,12 +35,11 @@ def do_ppgit_show_usage_message
 end
 
 
-def do_ppgit_info(source=nil)
-  name, email = get_git_value('user.name', source), get_git_value('user.email', source)
-  email_root  = get_git_value('ppgit.emailroot', source)
-  s = ["\n~/.gitconfig :", "  ..."]
+def do_ppgit_info
+  name, email = get_git_value('user.name'), get_git_value('user.email')
+  email_root  = get_git_value('ppgit.emailroot')
   s = []
-  s << "  ------------------------------------------------------- #{source}"
+  s << "  -------------------------------------------------------"
   if blank?(name) && blank?(email)
     s << '  [user] is empty (user.email and user.name are not set)'
   else
@@ -54,7 +53,7 @@ def do_ppgit_info(source=nil)
     s << "    emailroot = #{email_root}" unless blank?(email_root)
     s << '  -------------------------------------------------------'
   end
-  name, email = get_git_value('user-before-ppgit.name', source), get_git_value('user-before-ppgit.email', source)
+  name, email = get_git_value('user-before-ppgit.name'), get_git_value('user-before-ppgit.email')
   unless blank?(name) && blank?(email)
     s << '  [user-before-ppgit]'
     s << "    name  = #{name }" unless blank?(name )

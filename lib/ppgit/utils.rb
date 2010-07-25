@@ -10,23 +10,36 @@ def blank?(string_or_nil)
   string_or_nil.nil? || ('' == string_or_nil.strip)
 end
 
+# separator = --file, or --global_file
+def config_file_part(separator)
+  (config_file = argv_value_of(separator)) ?
+    "--file #{config_file}":
+    nil
+end
 
-def get_git_value(key, source=nil)
-  where = source || PPGIT_FILE_PART
+
+def get_value(key, where)
   (`git config #{where} --get  #{key}`).chomp
 end
 
-def get_global_git_value(key, source=nil)
-  where = source || PPGIT_GLOBAL_FILE_PART
-  (`git config #{where} --get  #{key}`).chomp
+def get_git_value(key)
+  get_value(key, PPGIT_FILE_PART)
+end
+
+def get_global_git_value(key)
+  get_value(key, PPGIT_GLOBAL_FILE_PART)
+end
+
+def set_value(key, value, where)
+  `git config #{where} #{key} '#{value}'`
 end
 
 def set_git_value(key, value)
-  `git config #{PPGIT_FILE_PART} #{key} '#{value}'`
+  set_value(key, value, PPGIT_FILE_PART)
 end
 
 def set_global_git_value(key, value)
-  `git config #{PPGIT_GLOBAL_FILE_PART} #{key} '#{value}'`
+  set_value(key, value, PPGIT_GLOBAL_FILE_PART)
 end
 
 
