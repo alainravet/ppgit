@@ -49,6 +49,11 @@ def do_ppgit_show_usage_message
   puts File.open(path).read
 end
 
+def do_ppgit_show_quick_usage_message
+  path = File.expand_path(File.join(File.dirname(__FILE__), 'quick_usage.txt'))
+  puts File.open(path).read
+end
+
 
 def do_ppgit_info
   name, email = get_local_git_value('user.name'), get_local_git_value('user.email')
@@ -77,5 +82,5 @@ def do_ppgit_info
   end
   s << ' '
 
-  puts s.join("\n")
+  puts green s.join("\n")
 end

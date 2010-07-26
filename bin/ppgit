@@ -30,7 +30,10 @@ else
     do_ppgit_info()
 
   else
-    do_ppgit_show_usage_message()
-
-  end
+    puts yellow( "\nError - invalid command : ")
+    puts yellow( '   ppgit ') + lred(ARGV.join(' '))
+    puts "\n----------------------------\n\n"
+    do_ppgit_show_quick_usage_message
+    puts "\n----------------------------\n\n"
+   end
 end

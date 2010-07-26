@@ -1,0 +1,17 @@
+Quick Usage:
+
+    $ ppgit john andy andy_john@acme.com
+    $ ppgit clear
+    $ ppgit info
+
+    $ ppgit --email_root *@acme.com
+    $ ppgit john andy
+
+remark : 'ppgit' is a synonym of 'git pp' => you can write
+
+    $ git pp john andy
+    $ git pp clear
+
+
+To see full usage :
+    $ ppgit
