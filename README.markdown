@@ -1,6 +1,8 @@
 [ppgit](http://rubygems.org/gems/ppgit)
 =======
 
+![Alt text](http://github.com/alainravet/ppgit/raw/master/doc/ppgit-img3.png)
+
 For Git-friendly Pair-Programming sessions.    
 Sign your commits with your pair 2-part name and email : andy\_john / andy\_john@acme.com    
 When you're done, restore your local git config in a snap.
@@ -25,6 +27,8 @@ remark : 'ppgit' is a synonym of 'git pp' => you can write
 Usage :
 -------
 
+![Alt text](http://github.com/alainravet/ppgit/raw/master/doc/ppgit-img1.png)
+
 #### 1 - When the pairing session starts, quickly set user.name and user.email to the pair values :
 
 		$ ppgit john andy  andy_john@mycompany.com
@@ -43,7 +47,7 @@ Usage :
 
 		$ ppgit clear
 
-=> will restore your ~/.gitconfig to :
+=> will restore your .git/config to :
 
 		[user]
 			name = Your Name
@@ -81,8 +85,16 @@ This info is stored in ~/.gitconfig => it works for all your projects.
 
 		$ gem install ppgit
 
-#### Report bugs to <http://github.com/alainravet/ppgit/>
 
+#### Update :
+
+You are warned when a new version is available :
+
+![Alt text](http://github.com/alainravet/ppgit/raw/master/doc/ppgit-img2.png)
+
+
+#### Report bugs to <http://github.com/alainravet/ppgit/>
+test
 --------------------------------------------------------------------------------
 
 == Note on Patches/Pull Requests
