@@ -35,5 +35,9 @@ else
     puts "\n----------------------------\n\n"
     do_ppgit_show_quick_usage_message
     puts "\n----------------------------\n\n"
-   end
+  end
+
+  unless in_test_mode
+    print_message_if_new_version_available('alainravet', 'ppgit')
+  end
 end

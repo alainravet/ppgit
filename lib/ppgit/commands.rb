@@ -1,5 +1,6 @@
 require 'ppgit/git_utils'
 require 'ppgit/ppgit_utils'
+require 'ppgit/version_utils'
 
 
 def do_ppgit_clear
