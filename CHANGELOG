@@ -1,3 +1,6 @@
+0.5.0
+  - print warning if a new version is available - closes gh-3
+  - display info in green, error in red - http://bit.ly/aHb1pw - closes gh-2
 0.4.0
   - use a bash & platform-agnostic ruby location
   - fixed that ppgit.emailroot would be stored in the local config file, instead of ~/.gitconfig.
