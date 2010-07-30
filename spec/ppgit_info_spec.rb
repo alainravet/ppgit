@@ -34,7 +34,7 @@ describe "`ppgit info`" do
       ignore, ignore, @output = execute_command_g( ppgit("info"), before_local, before_global)
     end
 
-    it('should display the empty [user] section'                 ) { @output.should match(/\[user\]/mi) }
+    it('should not display the empty [user] section'                 ) { @output.should_not match(/\[user\]/mi) }
 
     it('should NOT display the empty [user-before-ppgit] section') { @output.should_not match(/\[user-before-ppgit\]/mi) }
     it('should NOT display the [ppgit] info'                     ) { @output.should_not match(/\[ppgit\]/mi)             }

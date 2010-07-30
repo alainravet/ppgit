@@ -11,11 +11,13 @@ if ARGV.empty?
   do_ppgit_show_usage_message()
 
 else
-  LOCAL_CONFIG_FILE  = in_test_mode ? config_file_part('--file'       ) : nil
+#  LOCAL_CONFIG_FILE  = in_test_mode ? config_file_part('--file'       ) : nil
+  LOCAL_CONFIG_FILE  = in_test_mode ? config_file_part('--file'       ) : '--file .git/config'
   GLOBAL_CONFIG_FILE = in_test_mode ? config_file_part('--global_file') : '--global'
 
   if emailroot = argv_value_of('--email_root')
     do_ppgit_emailroot(emailroot)
+    do_ppgit_info() if ARGV.empty?
   end
 
   if ARGV == %w(info)
@@ -29,7 +31,7 @@ else
     do_ppgit_set_pair_as_a_user(user_1=ARGV[0], user_2=ARGV[1], pair_email=ARGV[2])
     do_ppgit_info()
 
-  else
+  elsif 0 != ARGV.length
     puts yellow( "\nError - invalid command : ")
     puts yellow( '   ppgit ') + lred(ARGV.join(' '))
     puts "\n----------------------------\n\n"

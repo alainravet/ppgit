@@ -57,15 +57,22 @@ end
 
 
 def do_ppgit_info
-  name, email = get_local_git_value('user.name'), get_local_git_value('user.email')
-  email_root  = get_local_git_value('ppgit.emailroot')
+  ppgit_info(LOCAL_CONFIG_FILE )
+  ppgit_info(GLOBAL_CONFIG_FILE)
+end
+
+def ppgit_info(file)
+  name, email = get_value('user.name', file), get_value('user.email', file)
+  email_root  = get_value('ppgit.emailroot', file)
   s = []
-  s << "  -------------------------------------------------------"
-  if name.blank? && email.blank?
-    s << '  [user] is empty (user.email and user.name are not set)'
-  else
+  s << "-------------------------------------------------------"
+  s << "file = " + ((file == '--global') ? '~/.gitconfig' : file.gsub('--file ',''))
+  s << "-------------------------------------------------------"
+  unless name.blank? && email.blank?
+#    s << '  [user] is empty (user.email and user.name are not set)'
+#  else
     s << '  [user]'
-    s << "    name  = #{name }" unless name .blank?
+    s << "    name  = #{name }" unless name.blank?
     s << "    email = #{email}" unless email.blank?
     s << '  -------------------------------------------------------'
   end
@@ -74,14 +81,14 @@ def do_ppgit_info
     s << "    emailroot = #{email_root}" unless email_root.blank?
     s << '  -------------------------------------------------------'
   end
-  name, email = get_local_git_value('user-before-ppgit.name'), get_local_git_value('user-before-ppgit.email')
+  name, email = get_value('user-before-ppgit.name', file), get_value('user-before-ppgit.email', file)
   unless name.blank? && email.blank?
     s << '  [user-before-ppgit]'
-    s << "    name  = #{name }" unless name .blank?
+    s << "    name  = #{name }" unless name.blank?
     s << "    email = #{email}" unless email.blank?
     s << '  -------------------------------------------------------'
   end
   s << ' '
-
   puts green s.join("\n")
 end
+
