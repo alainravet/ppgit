@@ -1,3 +1,5 @@
+0.6.0
+  - use '+' in the pair name, instead of '_'
 0.5.0
   - print warning if a new version is available - closes gh-3
   - display info in green, error in red - http://bit.ly/aHb1pw - closes gh-2
