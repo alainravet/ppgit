@@ -27,11 +27,9 @@ def do_ppgit_set_pair_as_a_user(user_1, user_2, pair_email)
   backup_git_value :from => 'user.email', :to => 'user-before-ppgit.email'
 
   two_users  = [user_1, user_2]
-  pair_user  = two_users.sort.join('_')
+  pair_email ||= make_email_from_email_root_and_user(two_users.sort.join('_'))
 
-  pair_email ||= make_email_from_email_root_and_user(pair_user)
-
-  set_local_git_value 'user.name', pair_user
+  set_local_git_value 'user.name', two_users.sort.join('+')
   if pair_email
     set_local_git_value 'user.email', pair_email
   end

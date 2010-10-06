@@ -5,7 +5,7 @@ describe "`ppgit info`" do
   context "when ALL the [user] and the ppgit variables are stored in the 2 config files"  do
     before(:all) do
       before_local    = [  '[user]'                         ,
-                            '  name = andy_john'            ,
+                            '  name = andy+john'            ,
                             '  email = andy_john@test.com'  ,
 
                             '[user-before-ppgit]'           ,
@@ -17,12 +17,10 @@ describe "`ppgit info`" do
       ignore, ignore, @output = execute_command_g( ppgit("info"), before_local, before_global)
     end
 
-    it('should display the [user].* info'             ) { @output.should match(/\[user\].+andy_john.+andy_john@test.com/mi) }
+    it('should display the [user].* info'             ) { @output.should match(/\[user\].+andy\+john.+andy_john@test.com/mi) }
     it('should display the [user-before-ppgit].* info') { @output.should match(/\[user-before-ppgit\].+John User.+johnuser@gmail.be/mi) }
     it('should display the [ppgit].emailroot info'    ) {
-      pending 'till we can find a better way to fake the file system' do
-        @output.should match(/\[ppgit\].+emailroot\s+=\s+acme\+\*@gmail.com/mi)
-      end
+      @output.should match(/\[ppgit\].+emailroot\s+=\s+acme\+\*@gmail.com/mi)
     }
   end
 

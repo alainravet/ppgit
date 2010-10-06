@@ -53,7 +53,7 @@ describe "medium: `ppgit john andy --email_root acme+*@gmail.com`" do
 
   it 'stores the user in local (.git/config)' do
     expected_local = [  '[user]'                          ,
-                        '  name = andy_john'              ,
+                        '  name = andy+john'              ,
                         '  email = acme+andy_john@gmail.com'
                       ].join("\n")
     @actual_local.should == expected_local
@@ -77,7 +77,7 @@ describe "complex: `ppgit john andy andy_john@test.com --email_root acme+*@gmail
 
   it 'uses the explicit email address (3rd parameter)' do
     expected_local = [  '[user]'                          ,
-                        '  name = andy_john'              ,
+                        '  name = andy+john'              ,
                         '  email = andy_john@test.com'
                       ].join("\n")
     @actual_local.should == expected_local

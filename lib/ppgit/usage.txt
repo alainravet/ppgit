@@ -27,7 +27,7 @@ remark : 'ppgit' is a synonym of 'git pp' => you can write
         => will update ~/.gitconfig to
       
             [user]
-              name = andy_john
+              name = andy+john
               email = andy_john@mycompany.com
 
 

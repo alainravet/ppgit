@@ -34,7 +34,7 @@ describe "`ppgit clear`" do
   context 'when there is a user.name + email AND stored values in user-before-ppgit AND an emailroot' do
     before(:all) do
       @before_local   = [  '[user]'                        ,
-                            '  name = andy_john'            ,  # value to replace
+                            '  name = andy+john'            ,  # value to replace
                             '  email = andy_john@test.com'  ,  #  ..
 
                             '[user-before-ppgit]'             , # section to erase
@@ -65,7 +65,7 @@ describe "`ppgit clear`" do
   context 'when both the backup user.name and email are the same as the global values' do
     before(:all) do
       @before_local   = [  '[user]'                           , # section to erase
-                            '  name = andy_john'              , #
+                            '  name = andy+john'              , #
                             '  email = andy_john@test.com'    , #
 
                             '[user-before-ppgit]'             , # section to erase
@@ -93,7 +93,7 @@ describe "`ppgit clear`" do
   context 'when only the backup user.name is the same as the global value' do
     before(:all) do
       @before_local   = [  '[user]'                           , #
-                            '  name = andy_john'              , # will disappear
+                            '  name = andy+john'              , # will disappear
                             '  email = andy_john@test.com'    , # will be restored
 
                             '[user-before-ppgit]'             , #

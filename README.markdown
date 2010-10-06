@@ -36,7 +36,7 @@ Usage :
 => this will update the .git/config of your project to
 
 		[user]
-			name = andy_john
+			name = andy+john
 			email = andy_john@mycompany.com
 		[user-before-ppgit]
 			name = Your Name
