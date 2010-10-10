@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ppgit}
-  s.version = "0.6.0"
+  s.version = "0.7.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alain Ravet"]
-  s.date = %q{2010-10-07}
+  s.date = %q{2010-10-10}
   s.description = %q{git users' pairs switcher}
   s.email = %q{alain.ravet+git@gmail.com}
   s.executables = ["git-pp", "ppgit"]
@@ -32,16 +32,18 @@ Gem::Specification.new do |s|
      "doc/ppgit-img3.png",
      "lib/ppgit.rb",
      "lib/ppgit/commands.rb",
+     "lib/ppgit/gem_version_utils.rb",
      "lib/ppgit/git_utils.rb",
+     "lib/ppgit/github_utils.rb",
      "lib/ppgit/ppgit_utils.rb",
      "lib/ppgit/quick_usage.txt",
      "lib/ppgit/usage.txt",
      "lib/ppgit/utils.rb",
-     "lib/ppgit/version_utils.rb",
      "ppgit.gemspec",
      "spec/ppgit_clear_spec.rb",
      "spec/ppgit_email_root_spec.rb",
-     "spec/ppgit_info_spec.rb",
+     "spec/ppgit_info_spec.rb.disabled",
+     "spec/ppgit_names_separator_spec.rb",
      "spec/ppgit_spec.rb",
      "spec/ppgit_usage_spec.rb",
      "spec/spec.opts",
@@ -55,7 +57,7 @@ Gem::Specification.new do |s|
   s.test_files = [
     "spec/ppgit_clear_spec.rb",
      "spec/ppgit_email_root_spec.rb",
-     "spec/ppgit_info_spec.rb",
+     "spec/ppgit_names_separator_spec.rb",
      "spec/ppgit_spec.rb",
      "spec/ppgit_usage_spec.rb",
      "spec/spec_helper.rb"

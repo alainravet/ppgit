@@ -36,5 +36,9 @@ def print_message_if_new_version_available
     end
     msg = s.join("\n")
     puts msg
+
+    puts "Note: you can prevent the version check with :"
+    puts "   PPGIT_NO_VERSION_CHECK=true ppgit <command>"
+    puts ''
   end
 end
