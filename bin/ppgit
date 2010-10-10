@@ -47,7 +47,10 @@ else
     puts "\n----------------------------\n\n"
   end
 
-  unless in_test_mode
-    print_message_if_new_version_available('alainravet', 'ppgit')
+  unless in_test_mode || 'true' == ENV['PPGIT_NO_VERSION_CHECK']
+    print_message_if_new_version_available
+    puts "Note: you can prevent the version check with :"
+    puts "   PPGIT_NO_VERSION_CHECK=true ppgit <command>"
+    puts ''
   end
 end
