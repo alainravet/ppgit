@@ -10,25 +10,12 @@ Spec::Runner.configure do |config|
 end
 
 require 'tempfile'
-require 'ftools'
-
-def temp_from_model(model, file_basename=nil)
-  newfile = Tempfile.new(file_basename)
-  source_path = File.expand_path(File.dirname(__FILE__) + "/fixtures/#{model}")
-  File.copy(source_path, newfile.path)
-  newfile
-end
 
 def temp_from_string(string, file_basename=nil)
   f = Tempfile.new(file_basename) 
   f.write(string)
   f.close
   f
-end
-
-def expected_contents(file_name)
-  f = File.expand_path(File.dirname(__FILE__) + "/fixtures/#{file_name}")
-  File.open(f).read
 end
 
 
