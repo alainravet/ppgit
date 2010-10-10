@@ -10,13 +10,15 @@ When you're done, restore your local git config in a snap.
 Quick Usage :
 -------------
 
-		$ ppgit john andy andy_john@acme.com
+		$ ppgit john andy
 		$ ppgit clear
-
 		$ ppgit info
 
-		$ ppgit --email_root *@acme.com
-		$ ppgit john andy
+		$ ppgit john andy andy_john@acme.com
+
+		$ ppgit ara nva  --email_root base+*@acme.com    # ==>  user.email  =  base+ara_nva@acme.com
+        $ ppgit ara nva  --names_separator _and_         # ==>  user.name   =  ara_and_nva  (default = '+')
+
 
 remark : 'ppgit' is a synonym of 'git pp' => you can write
 
@@ -53,9 +55,9 @@ Usage :
 			name = Your Name
 			email = your_email@address.com
 
-#### 3 - If your team pairs share a common email pattern (ex: ann_bob@acme.com, cid_dan@acme.com), you can specify it once and for all :
 
-		$ ppgit --email_root   *@acme.com
+#### 3 - TIP : create unique email addresses for each pair based on a common address pattern
+		$ ppgit --email_root   base+*@acme.com
 
 => you can now use the short syntax :
 
@@ -64,14 +66,19 @@ Usage :
 
 are now equivalent to :
 
-		$ ppgit bob al   al_bob@acme.com
-		$ ppgit dan cid  cid_dan@acme.com
+		$ ppgit bob al   base+al_bob@acme.com
+		$ ppgit dan cid  base+cid_dan@acme.com
 
 This info is stored in ~/.gitconfig => it works for all your projects.
 
 
-#### Tip : use 1 gmail address + n aliases, so you can choose 1 unique gravatar for each pair :
+#### Tip : use 1 gmail address + n aliases, so you can choose 1 unique gravatar for each pair (see 1st illustration above) :
 
+        # 1: create the gmail address :
+        #         mycompany@gmail.com
+
+        # 2: use it as a base for your PP pairs :
+        #
 		$ ppgit --email_root   mycompany+*@gmail.com
 
 => you'll get
