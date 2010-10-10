@@ -1,6 +1,22 @@
 require 'ppgit/utils'
 require 'ppgit/git_utils'
 
+# ------------------------------------------------------------------------
+
+#  'ann', 'bob'  => ''ann+bob'
+def assemble_pair_name(user_1, user_2, names_separator)
+  names_separator = Ppgit::DEFAULT_PAIR_NAME_SEPARATOR if names_separator.blank?
+  [user_1, user_2].sort.join(names_separator)
+end
+
+#  'ann', ''bob'  => ''ann+bob'
+
+def assemble_email_user(user_1, user_2)
+  [user_1, user_2].sort.join(Ppgit::DEFAULT_PAIR_EMAIL_USER_SEPARATOR)
+end
+
+# ------------------------------------------------------------------------
+
 # separator = --file, or --global_file
 # Returns :
 #   nil

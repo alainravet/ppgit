@@ -2,7 +2,6 @@ require 'ppgit/git_utils'
 require 'ppgit/ppgit_utils'
 require 'ppgit/gem_version_utils'
 
-
 def do_ppgit_clear
   backup_is_same_as_global?('name') ?
     unset_local_git_value('user.name') :
@@ -21,21 +20,19 @@ def do_ppgit_set_pair_as_a_user(user_1, user_2, pair_email, names_separator)
   backup_git_value :from => 'user.name' , :to => 'user-before-ppgit.name'
   backup_git_value :from => 'user.email', :to => 'user-before-ppgit.email'
 
-  two_users  = [user_1, user_2]
-  pair_email ||= make_email_from_email_root_and_user(two_users.sort.join('_'))
+  pair_email ||= make_email_from_email_root_and_user(user_1, user_2)
 
-  names_separator = Ppgit::DEFAULT_PAIR_NAME_SEPARATOR if names_separator.blank?
-  set_local_git_value 'user.name', two_users.sort.join(names_separator)
+  set_local_git_value 'user.name', assemble_pair_name(user_1, user_2, names_separator)
   if pair_email
     set_local_git_value 'user.email', pair_email
   end
 end
 
-def make_email_from_email_root_and_user(pair_user)
+def make_email_from_email_root_and_user(user_1, user_2)
   emailroot = get_global_git_value('ppgit.emailroot')
   emailroot.blank? ?
       nil :
-      emailroot.gsub('*', pair_user)
+      emailroot.gsub('*', assemble_email_user(user_1, user_2))
 end
 
 
@@ -67,19 +64,27 @@ def ppgit_info(file)
 #    s << '  [user] is empty (user.email and user.name are not set)'
 #  else
     s << '  [user]'
-    s << "    name  = #{name }" unless name.blank?
-    s << "    email = #{email}" unless email.blank?
+    s << red("    name  = #{name }") unless name.blank?
+    s << red("    email = #{email}") unless email.blank?
     s << '  -------------------------------------------------------'
   end
+
   unless email_root.blank? && names_separator.blank?
     s << '  [ppgit]'
-    s << "    emailroot = #{email_root}" unless email_root.blank?
-    s << "    namesseparator = #{names_separator}" unless names_separator.blank?
+    unless email_root.blank?
+      sample_email = make_email_from_email_root_and_user('ann', 'bob')
+      s << "    emailroot = #{yellow(email_root)}   # -> `ppgit ann bob`  -> user.email = #{yellow(sample_email)}"
+    end
+    unless names_separator.blank?
+      sample_name = assemble_pair_name('ann', 'bob', names_separator)
+      s << "    namesseparator = #{yellow(names_separator)}    # -> `ppgit ann bob`  -> user.name = #{yellow(sample_name)}"
+    end
     s << '  -------------------------------------------------------'
   end
+
   name, email = get_value('user-before-ppgit.name', file), get_value('user-before-ppgit.email', file)
   unless name.blank? && email.blank?
-    s << '  [user-before-ppgit]'
+    s << '  [user-before-ppgit]  # values restored by `ppgit clear`'
     s << "    name  = #{name }" unless name.blank?
     s << "    email = #{email}" unless email.blank?
     s << '  -------------------------------------------------------'
