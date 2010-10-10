@@ -18,7 +18,10 @@ context "with empty git config files"  do
                         '  name = andy+john'  ]
       @actual_local.should == expected_local.join("\n")
     end
-    it("doesn't change --global (~/.gitconfig)") { @actual_global.should == @before_global.join("\n") }
+    it("adds the default names separator to the global config (~/.gitconfig)") do
+      augmented_global = @before_global + ['[ppgit]', "  namesseparator = #{Ppgit::DEFAULT_PAIR_NAME_SEPARATOR}"]
+      @actual_global.should == (augmented_global).join("\n")
+    end
   end
 
 
@@ -34,7 +37,10 @@ context "with empty git config files"  do
 
       @actual_local.should == expected_local.join("\n")
     end
-    it("doesn't change --global (~/.gitconfig)") { @actual_global.should == @before_global.join("\n") }
+    it("adds the default names separator to the global config (~/.gitconfig)") do
+      augmented_global = @before_global + ['[ppgit]', "  namesseparator = #{Ppgit::DEFAULT_PAIR_NAME_SEPARATOR}"]
+      @actual_global.should == (augmented_global).join("\n")
+    end
   end
 end
 
@@ -56,7 +62,10 @@ context 'when there is only a ppgit.emailroot' do
                         '  email = pp+andy_john@gmail.com'  ]
       @actual_local.should == expected_local.join("\n")
     end
-    it("doesn't change --global (~/.gitconfig)") { @actual_global.should == @before_global.join("\n") }
+    it("adds the default names separtor to the global config (~/.gitconfig)") do
+      augmented_global = @before_global + ["  namesseparator = #{Ppgit::DEFAULT_PAIR_NAME_SEPARATOR}"]
+      @actual_global.should == (augmented_global).join("\n")
+    end
   end
 end
 

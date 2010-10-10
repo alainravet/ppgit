@@ -16,7 +16,8 @@ describe "simple: `ppgit --email_root acme+*@gmail.com`" do
 
     it 'stores the emailroot in --global (~/.gitconfig)' do
       expected_global= ['[ppgit]'                         ,
-                        '  emailroot = acme+*@gmail.com'
+                        '  namesseparator = +'            ,
+                        '  emailroot = acme+*@gmail.com'  ,
                         ]
       @actual_global.should == expected_global.join("\n")
     end
@@ -27,7 +28,8 @@ describe "simple: `ppgit --email_root acme+*@gmail.com`" do
     before(:all) do
       @before_local    = [ ]
       @before_global   =  ['[ppgit]'                     ,
-                          '  emailroot = old+*@gmail.com' # <= the old value to replace
+                           '  namesseparator = +'        ,
+                          '  emailroot = old+*@gmail.com', # <= the old value to replace
                           ]
       @actual_local, @actual_global = execute_command_g(@cmd, @before_local, @before_global)
     end
@@ -36,7 +38,8 @@ describe "simple: `ppgit --email_root acme+*@gmail.com`" do
 
     it 'stores the new emailroot in --global (~/.gitconfig)' do
       expected_global= ['[ppgit]'                         ,
-                        '  emailroot = acme+*@gmail.com'
+                        '  namesseparator = +'            ,
+                        '  emailroot = acme+*@gmail.com'  ,
                         ]
       @actual_global.should == expected_global.join("\n")
     end
@@ -60,6 +63,7 @@ describe "medium: `ppgit john andy --email_root acme+*@gmail.com`" do
   end
   it 'stores the emailroot in --global (~/.gitconfig)' do
     expected_global= ['[ppgit]'                         ,
+                      '  namesseparator = +'            ,
                       '  emailroot = acme+*@gmail.com'
                       ].join("\n")
     @actual_global.should == expected_global
@@ -85,6 +89,7 @@ describe "complex: `ppgit john andy andy_john@test.com --email_root acme+*@gmail
 
   it 'stores the emailroot in --global (~/.gitconfig)' do
     expected_global= ['[ppgit]'                         ,
+                      '  namesseparator = +'            ,
                       '  emailroot = acme+*@gmail.com'
                       ].join("\n")
     @actual_global.should == expected_global

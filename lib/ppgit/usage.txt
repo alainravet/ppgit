@@ -6,12 +6,12 @@ ppgit : quickly update ~/.gitconfig for pair-programming sessions.
 
   Quick Usage:
 
-    $ ppgit john andy andy_john@acme.com
+    $ ppgit john andy
     $ ppgit clear
     $ ppgit info
 
-    $ ppgit --email_root *@acme.com
-    $ ppgit john andy
+    $ ppgit john andy andy_john@acme.com
+    $ ppgit --email_root *@acme.com --names_separator _and_
 
 remark : 'ppgit' is a synonym of 'git pp' => you can write
 

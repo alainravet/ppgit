@@ -13,6 +13,7 @@ describe "`ppgit info`" do
                             '  email = johnuser@gmail.be'   ]
 
       before_global   = [   '[ppgit]'                       ,
+                            'namesseparator = ZEP'          ,
                             '  emailroot = acme+*@gmail.com'  ]
       ignore, ignore, @output = execute_command_g( ppgit("info"), before_local, before_global)
     end
@@ -21,6 +22,9 @@ describe "`ppgit info`" do
     it('should display the [user-before-ppgit].* info') { @output.should match(/\[user-before-ppgit\].+John User.+johnuser@gmail.be/mi) }
     it('should display the [ppgit].emailroot info'    ) {
       @output.should match(/\[ppgit\].+emailroot\s+=\s+acme\+\*@gmail.com/mi)
+    }
+    it('should display the [ppgit].namesseparator info'    ) {
+      @output.should match(/\[ppgit\].+namesseparator\s+=\s+ZEP/mi)
     }
   end
 
@@ -35,6 +39,8 @@ describe "`ppgit info`" do
     it('should not display the empty [user] section'                 ) { @output.should_not match(/\[user\]/mi) }
 
     it('should NOT display the empty [user-before-ppgit] section') { @output.should_not match(/\[user-before-ppgit\]/mi) }
-    it('should NOT display the [ppgit] info'                     ) { @output.should_not match(/\[ppgit\]/mi)             }
+    it('should insert and display the default [ppgit].namesseparator info'    ) {
+      @output.should match(/\[ppgit\].+namesseparator\s+=\s+\+/mi)
+    }
   end
 end

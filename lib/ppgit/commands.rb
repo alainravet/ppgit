@@ -17,19 +17,15 @@ def do_ppgit_clear
 end
 
 
-def do_ppgit_emailroot(emailroot)
-  set_global_git_value 'ppgit.emailroot', emailroot
-end
-
-
-def do_ppgit_set_pair_as_a_user(user_1, user_2, pair_email)
+def do_ppgit_set_pair_as_a_user(user_1, user_2, pair_email, names_separator)
   backup_git_value :from => 'user.name' , :to => 'user-before-ppgit.name'
   backup_git_value :from => 'user.email', :to => 'user-before-ppgit.email'
 
   two_users  = [user_1, user_2]
   pair_email ||= make_email_from_email_root_and_user(two_users.sort.join('_'))
 
-  set_local_git_value 'user.name', two_users.sort.join('+')
+  names_separator = Ppgit::DEFAULT_PAIR_NAME_SEPARATOR if names_separator.blank?
+  set_local_git_value 'user.name', two_users.sort.join(names_separator)
   if pair_email
     set_local_git_value 'user.email', pair_email
   end
@@ -60,8 +56,9 @@ def do_ppgit_info
 end
 
 def ppgit_info(file)
-  name, email = get_value('user.name', file), get_value('user.email', file)
-  email_root  = get_value('ppgit.emailroot', file)
+  name, email     = get_value('user.name', file), get_value('user.email', file)
+  names_separator = get_value('ppgit.namesseparator', file)
+  email_root      = get_value('ppgit.emailroot'     , file)
   s = []
   s << "-------------------------------------------------------"
   s << "file = " + ((file == '--global') ? '~/.gitconfig' : file.gsub('--file ',''))
@@ -74,9 +71,10 @@ def ppgit_info(file)
     s << "    email = #{email}" unless email.blank?
     s << '  -------------------------------------------------------'
   end
-  unless email_root.blank?
+  unless email_root.blank? && names_separator.blank?
     s << '  [ppgit]'
     s << "    emailroot = #{email_root}" unless email_root.blank?
+    s << "    namesseparator = #{names_separator}" unless names_separator.blank?
     s << '  -------------------------------------------------------'
   end
   name, email = get_value('user-before-ppgit.name', file), get_value('user-before-ppgit.email', file)

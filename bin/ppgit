@@ -15,12 +15,20 @@ else
   LOCAL_CONFIG_FILE  = in_test_mode ? config_file_part('--file'       ) : '--file .git/config'
   GLOBAL_CONFIG_FILE = in_test_mode ? config_file_part('--global_file') : '--global'
 
-  if emailroot = argv_value_of('--email_root')
-    do_ppgit_emailroot(emailroot)
-    do_ppgit_info() if ARGV.empty?
+  if names_separator = argv_value_of('--names_separator')
+    set_global_git_value 'ppgit.namesseparator', names_separator
   end
 
-  if ARGV == %w(info)
+  if get_global_git_value('ppgit.namesseparator').blank? && !ARGV.include?('clear')
+    # write the default value in the config file, as hint/documentation
+    set_global_git_value 'ppgit.namesseparator', Ppgit::DEFAULT_PAIR_NAME_SEPARATOR
+  end
+
+  if emailroot = argv_value_of('--email_root')
+    set_global_git_value 'ppgit.emailroot', emailroot
+  end
+
+  if ARGV.empty? || ARGV == %w(info)
     do_ppgit_info()
 
   elsif ARGV == %w(clear)
@@ -28,7 +36,7 @@ else
     do_ppgit_info()
 
   elsif [2, 3].include?(ARGV.length)
-    do_ppgit_set_pair_as_a_user(user_1=ARGV[0], user_2=ARGV[1], pair_email=ARGV[2])
+    do_ppgit_set_pair_as_a_user(user_1=ARGV[0], user_2=ARGV[1], pair_email=ARGV[2], names_separator=get_global_git_value('ppgit.namesseparator'))
     do_ppgit_info()
 
   elsif 0 != ARGV.length
