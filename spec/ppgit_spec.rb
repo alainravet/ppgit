@@ -150,3 +150,26 @@ context 'when there is a user.name + email AND stored values in [user-before-ppg
   end
 
 end
+
+context 'when there is only global user.name and user.email' do
+  before(:all) do
+    @before_local   = []
+    @before_global  = ['[user]' ,
+                        '  name = Alain Ravet'            ,
+                        '  email = alainravet@gmail.com'  ]
+  end
+
+  it '`ppgit john andy andy_john@test.com` stores the 2 existing values in [user-before-ppgit]' do
+    cmd = ppgit('john andy andy_john@test.com' )
+    @actual_local, @actual_global = execute_command_g( cmd, @before_local, @before_global)
+    expected_local = [
+                      '[user-before-ppgit]'   ,
+                      '  name = Alain Ravet'  ,
+                      '  email = alainravet@gmail.com',
+                      '[user]'                ,
+                      '  name = andy+john'    ,
+                      '  email = andy_john@test.com',
+]
+    @actual_local.should == expected_local.join("\n")
+  end
+end

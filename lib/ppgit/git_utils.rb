@@ -1,5 +1,10 @@
 def get_local_git_value( key) get_value(key, LOCAL_CONFIG_FILE ) end
 def get_global_git_value(key) get_value(key, GLOBAL_CONFIG_FILE) end
+def get_local_or_global_git_value( key)
+  val = get_value(key, LOCAL_CONFIG_FILE )
+  val = get_value(key, GLOBAL_CONFIG_FILE) if val.blank?
+  val
+end
 
 def set_local_git_value( key, value) set_value(key, value, LOCAL_CONFIG_FILE ) end
 def set_global_git_value(key, value) set_value(key, value, GLOBAL_CONFIG_FILE) end

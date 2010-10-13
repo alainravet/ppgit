@@ -42,10 +42,11 @@ def backup_git_value(options)
   source, target = options[:from], options[:to]
 
   target_already_occupied = !get_local_git_value(target).blank?
-  nothing_to_backup       =  get_local_git_value(source).blank?
+  backupee = get_local_or_global_git_value(source)
+  nothing_to_backup       =  backupee.blank?
 
   return if target_already_occupied || nothing_to_backup
-  set_local_git_value(target, get_local_git_value(source))
+  set_local_git_value(target, backupee)
 end
 
 def restore_git_value(options)

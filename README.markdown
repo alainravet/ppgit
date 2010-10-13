@@ -59,7 +59,7 @@ Usage :
 #### 3 - TIP : create unique email addresses for each pair based on a common address pattern
 		$ ppgit --email_root   base+*@acme.com
 
-=> you can now use the short syntax :
+=> you can use the short syntax :
 
 		$ ppgit bob al
 		$ ppgit dan cid
