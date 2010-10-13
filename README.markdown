@@ -81,6 +81,11 @@ This info is stored in ~/.gitconfig => it works for all your projects.
         #
 		$ ppgit --email_root   mycompany+*@gmail.com
 
+        # 3: on gravatar.com, upload and associate an avatar/pair-mugshot with each pair email address.
+		# ex: upload 1 image for mycompany+ann_bob@gmail.com
+		#     upload 1 image for mycompany+bob_cid@gmail.com
+		#     upload 1 image for mycompany+ann_cid@gmail.com
+
 => you'll get
         mycompany+ann_bob@gmail.com
         mycompany+bob_cid@gmail.com
