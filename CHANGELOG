@@ -1,3 +1,6 @@
+0.7.2
+  - fixed that `ppgit clear` would not clear when there were no local (in .git/config)
+    values for user.name/user.email prior to `ppgit name1 name2`
 0.7.1
   - only indicate how to avoid new version warnings if there is a new version !!
 0.7.0
