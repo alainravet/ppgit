@@ -11,7 +11,7 @@ end
 
 
 def read_file_from_github(user, project, branch, file)
-  file_path = "http://github.com/#{user}/#{project}/raw/#{branch}/#{file}"
+  file_path = "https://github.com/#{user}/#{project}/raw/#{branch}/#{file}"
   begin
     contents = open(file_path).read.chomp # ex: '1.2.3'
   rescue => e #SocketError, OpenURI::HTTPError
@@ -22,7 +22,7 @@ def read_file_from_github(user, project, branch, file)
 end
 
 def read_file_lines_from_github(user, project, branch, file)
-  file_path = "http://github.com/#{user}/#{project}/raw/#{branch}/#{file}"
+  file_path = "https://github.com/#{user}/#{project}/raw/#{branch}/#{file}"
   begin
     open(file_path).readlines
   rescue SocketError, OpenURI::HTTPError
