@@ -1,7 +1,7 @@
 [ppgit](http://rubygems.org/gems/ppgit)
 =======
 
-![Alt text](http://github.com/alainravet/ppgit/raw/master/doc/ppgit-img3.png)
+![Alt text](https://github.com/alainravet/ppgit/raw/master/doc/ppgit-img3.png)
 
 For Git-friendly Pair-Programming sessions.    
 Sign your commits with your pair 2-part name and email : andy\_john / andy\_john@acme.com    
@@ -29,7 +29,7 @@ remark : 'ppgit' is a synonym of 'git pp' => you can write
 Usage :
 -------
 
-![Alt text](http://github.com/alainravet/ppgit/raw/master/doc/ppgit-img1.png)
+![Alt text](https://github.com/alainravet/ppgit/raw/master/doc/ppgit-img1.png)
 
 #### 1 - When the pairing session starts, quickly set user.name and user.email to the pair values :
 
@@ -102,10 +102,10 @@ This info is stored in ~/.gitconfig => it works for all your projects.
 
 You are warned when a new version is available :
 
-![Alt text](http://github.com/alainravet/ppgit/raw/master/doc/ppgit-img2.png)
+![Alt text](https://github.com/alainravet/ppgit/raw/master/doc/ppgit-img2.png)
 
 
-#### Report bugs to <http://github.com/alainravet/ppgit/>
+#### Report bugs to <https://github.com/alainravet/ppgit/>
 test
 --------------------------------------------------------------------------------
 
