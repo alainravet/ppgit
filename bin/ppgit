@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -w
+#!/usr/bin/ruby
 
 # for testing, we pass an explicit - temporary - config file path through --file and/or --global_file
 in_test_mode = ARGV.include?('--file')
