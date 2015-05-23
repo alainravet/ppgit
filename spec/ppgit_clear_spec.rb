@@ -56,7 +56,6 @@ describe "`ppgit clear`" do
       @actual_global.should == @before_global.join("\n")
     }
     it "displays the ppgit info" do
-      pending 'till we find a better way to fake the file system'
       @output.should match(/.*\[ppgit\].*emailroot.*/mi)
     end
   end
