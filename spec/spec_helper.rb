@@ -1,17 +1,17 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'ppgit'
-require 'spec'
-require 'spec/autorun'
+require 'rspec'
 
-
-Spec::Runner.configure do |config|
-
+RSpec.configure do |config|
+  config.expect_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
 end
 
 require 'tempfile'
 
-def temp_from_string(string, file_basename=nil)
+def temp_from_string(string, file_basename='')
   f = Tempfile.new(file_basename) 
   f.write(string)
   f.close
