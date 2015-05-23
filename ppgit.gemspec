@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ppgit}
-  s.version = "0.7.3"
+  s.version = "0.7.4"
   s.authors = ["Alain Ravet"]
   s.date = %q{2010-11-04}
   s.summary     = %q{git users' pairs switcher}
