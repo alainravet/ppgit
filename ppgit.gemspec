@@ -6,74 +6,22 @@
 Gem::Specification.new do |s|
   s.name = %q{ppgit}
   s.version = "0.7.3"
-
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alain Ravet"]
   s.date = %q{2010-11-04}
-  s.description = %q{git users' pairs switcher}
-  s.email = %q{alain.ravet+git@gmail.com}
+  s.summary     = %q{git users' pairs switcher}
+  s.description = s.summary
+  s.email = %q{alainravet@gmail.com}
   s.executables = ["git-pp", "ppgit"]
-  s.extra_rdoc_files = [
-    "LICENSE",
-     "README.markdown"
-  ]
-  s.files = [
-    ".document",
-     ".gitignore",
-     "CHANGELOG",
-     "LICENSE",
-     "README.markdown",
-     "Rakefile",
-     "VERSION",
-     "bin/git-pp",
-     "bin/ppgit",
-     "doc/ppgit-img1.png",
-     "doc/ppgit-img2.png",
-     "doc/ppgit-img3.png",
-     "lib/ppgit.rb",
-     "lib/ppgit/commands.rb",
-     "lib/ppgit/gem_version_utils.rb",
-     "lib/ppgit/git_utils.rb",
-     "lib/ppgit/github_utils.rb",
-     "lib/ppgit/ppgit_utils.rb",
-     "lib/ppgit/quick_usage.txt",
-     "lib/ppgit/usage.txt",
-     "lib/ppgit/utils.rb",
-     "ppgit.gemspec",
-     "spec/ppgit_clear_spec.rb",
-     "spec/ppgit_email_root_spec.rb",
-     "spec/ppgit_info_spec.rb.disabled",
-     "spec/ppgit_names_separator_spec.rb",
-     "spec/ppgit_spec.rb",
-     "spec/ppgit_usage_spec.rb",
-     "spec/spec.opts",
-     "spec/spec_helper.rb"
-  ]
+  s.files         = `git ls-files`.split("\n") #.reject { |name| name.include?('examples') }
+  s.test_files    = `git ls-files -- {spec}/*`.split("\n")
   s.homepage = %q{http://github.com/alainravet/ppgit}
-  s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
-  s.summary = %q{git users' pairs switcher}
-  s.test_files = [
-    "spec/ppgit_clear_spec.rb",
-     "spec/ppgit_email_root_spec.rb",
-     "spec/ppgit_names_separator_spec.rb",
-     "spec/ppgit_spec.rb",
-     "spec/ppgit_usage_spec.rb",
-     "spec/spec_helper.rb"
-  ]
 
-  if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 3
+  s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- {spec}/*`.split("\n")
 
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
-    else
-      s.add_dependency(%q<rspec>, [">= 1.2.9"])
-    end
-  else
-    s.add_dependency(%q<rspec>, [">= 1.2.9"])
-  end
+  s.add_development_dependency "rspec"
+
+  s.license       = 'MIT'
 end
 
